@@ -1,10 +1,7 @@
 <template>
 	<v-container>
-		<h2>
-			<v-icon icon="mdi-vuetify" />
-			Starter Template
-		</h2>
-		<h5>Nuxt 3 / Vuetify / Graphql / Pinia</h5>
+		<HeaderNavs title="SpaceX Home" />
+
 		<h3 class="my-5">
 			Example Pinia
 			<v-chip color="blue">useCounter</v-chip>
