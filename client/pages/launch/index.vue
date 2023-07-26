@@ -7,7 +7,7 @@
 			<v-select
 				color="blue"
 				label="Filter by year"
-				:items="years"
+				:items="generateYears()"
 				@update:model-value="handleSelected"
 			/>
 		</section>
@@ -19,10 +19,15 @@
 			</v-chip>
 		</v-chip-group>
 
-		<p v-if="loading">Loading...</p>
-		<p v-if="!launches?.length && !loading">No results</p>
+		<p v-if="pending">Loading...</p>
+		<p v-if="!launches?.length && !pending">No results</p>
 
-		<v-row v-for="launch in launches" :key="launch.id" class="launch">
+		<v-row
+			v-for="(launch, id) in launches"
+			:key="launch.id"
+			:ref="id === launches.length - 1 ? 'lastLaunchDataRef' : null"
+			class="launch"
+		>
 			<v-col cols="1">
 				<v-btn
 					:icon="isFavorite(launch.id) ? 'mdi-heart' : 'mdi-heart-outline'"
@@ -41,20 +46,22 @@
 				<p>{{ launch?.details }}</p>
 			</v-col>
 		</v-row>
+		<p v-if="scrollLoading" class="text-center">Loading...</p>
 	</v-container>
 </template>
 <script lang="ts" setup>
 const tags = ['ASC', 'DESC']
-const loading = useState('loading', () => true)
-
-const { launches, sortLaunches, generateYears, handleSelected, addToFavorites, isFavorite } = useLaunches()
-const years = generateYears()
-
-watchEffect(() => {
-	// toggle loading
-	if (launches.value?.length) loading.value = false
-	if (!launches.value?.length) loading.value = true
-})
+const lastLaunchDataRef = ref<any>(null)
+const {
+	launches,
+	pending,
+	scrollLoading,
+	sortLaunches,
+	generateYears,
+	handleSelected,
+	addToFavorites,
+	isFavorite,
+} = await useLaunches(lastLaunchDataRef)
 </script>
 
 <style scoped lang="scss">
