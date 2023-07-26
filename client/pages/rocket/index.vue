@@ -18,14 +18,7 @@
 	</v-container>
 </template>
 <script lang="ts" setup>
-const loading = useState('loading', () => true)
-const { rockets } = useRockets()
-
-watchEffect(() => {
-	// toggle loading
-	if (rockets.value?.length) loading.value = false
-	if (!rockets.value?.length) loading.value = true
-})
+const { rockets, loading } = useRockets()
 </script>
 <style lang="scss" scoped>
 div.v-container {

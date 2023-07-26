@@ -18,7 +18,7 @@ export const useRockets = () => {
 			}
 		}
 	`
-	const { data } = useAsyncQuery<{
+	const { result, loading } = useQuery<{
 		rockets: {
 			id: String
 			name: String
@@ -36,7 +36,7 @@ export const useRockets = () => {
 		}
 	}>(query)
 
-	const rockets = computed(() => data.value?.rockets)
+	const rockets = computed(() => result.value?.rockets)
 
-	return { rockets }
+	return { rockets, loading }
 }
