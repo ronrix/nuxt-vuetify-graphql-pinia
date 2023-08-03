@@ -19,20 +19,15 @@
 			</v-chip>
 		</v-chip-group>
 
-		<p v-if="pending">Loading...</p>
-		<p v-if="!launches?.length && !pending">No results</p>
+		<p v-if="loading" class="text-center">Loading...</p>
+		<p v-if="!launches?.length && !loading">No results</p>
 
-		<v-row
-			v-for="(launch, id) in launches"
-			:key="launch.id"
-			:ref="id === launches.length - 1 ? 'lastLaunchDataRef' : null"
-			class="launch"
-		>
+		<v-row v-for="launch in launches" :key="launch.id" class="launch">
 			<v-col cols="1">
 				<v-btn
-					:icon="isFavorite(launch.id) ? 'mdi-heart' : 'mdi-heart-outline'"
+					:icon="isFavorite(launch.id as string) ? 'mdi-heart' : 'mdi-heart-outline'"
 					density="compact"
-					@click="addToFavorites(launch.id)"
+					@click="addToFavorites(launch.id as string)"
 				/>
 			</v-col>
 			<v-col>
@@ -40,28 +35,21 @@
 				<h3>Mission: {{ launch?.mission_name }}</h3>
 				<p class="date">
 					{{ launch?.launch_site?.site_name ?? 'NULL' }} -
-					{{ new Date(launch?.launch_date_utc).toLocaleDateString() }}
+					{{ launch?.launch_date_utc }}
 				</p>
 				<h4>Rocket Name: {{ launch?.rocket?.rocket_name }}</h4>
 				<p>{{ launch?.details }}</p>
 			</v-col>
 		</v-row>
-		<p v-if="scrollLoading" class="text-center">Loading...</p>
+		<!-- Loading element: This will trigger fetching query for infinite scrolling effect -->
+		<p v-if="launches.length" ref="lastLaunchDataRef" class="text-center">Loading...</p>
 	</v-container>
 </template>
 <script lang="ts" setup>
 const tags = ['ASC', 'DESC']
-const lastLaunchDataRef = ref<any>(null)
-const {
-	launches,
-	pending,
-	scrollLoading,
-	sortLaunches,
-	generateYears,
-	handleSelected,
-	addToFavorites,
-	isFavorite,
-} = await useLaunches(lastLaunchDataRef)
+const lastLaunchDataRef = ref<HTMLDivElement | null>(null)
+const { launches, loading, sortLaunches, generateYears, handleSelected, addToFavorites, isFavorite } =
+	await useLaunches(lastLaunchDataRef)
 </script>
 
 <style scoped lang="scss">
