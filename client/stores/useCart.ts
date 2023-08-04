@@ -75,6 +75,7 @@ export const useCart = defineStore('cart', () => {
 			title: 'Successful Checkout',
 		}).then(() => {
 			carts.value = []
+			subTotal.value = 0
 		})
 	}
 
