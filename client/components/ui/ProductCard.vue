@@ -7,14 +7,18 @@ const prop = defineProps({
 })
 </script>
 <template>
-	<v-col class="md:v-col-4 lg:v-col-6 h-100" :class="{ 'v-col-12': isListView }" style="min-width: 250px">
+	<v-col
+		class="md:v-col-4 lg:v-col-6"
+		:class="{ 'v-col-12': isListView }"
+		style="min-width: 250px; max-height: 340px"
+	>
 		<v-hover v-slot="{ isHovering, props }">
 			<v-card
 				:elevaltion="isHovering ? 12 : 2"
 				v-bind="props"
 				:class="{ 'on-hover': isHovering }"
 				variant="text"
-				class="mr-2 mb-2 pa-2"
+				class="mr-2 mb-2 pa-2 h-100"
 				style="
 					cursor: pointer;
 					background-color: #191b1a33;

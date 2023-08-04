@@ -14,7 +14,7 @@ export const useShips = () => {
 		}
 	`
 
-	const { data, pending: loading, error } = useAsyncQuery<{ ships: IShip[] }>(shipsQuery, { limit: 10 })
+	const { data, pending: loading, error } = useAsyncQuery<{ ships: IShip[] }>(shipsQuery, { limit: 15 })
 	const ships = computed(() => {
 		if (data.value?.ships) {
 			return data.value?.ships.map((ship) => {

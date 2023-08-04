@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const category = ref<string>('spaceship 1')
 const pageType = ref<string>('menus')
 const { ships, addToCart, isListView } = useShips()
 </script>
@@ -12,20 +11,7 @@ const { ships, addToCart, isListView } = useShips()
 
 			<v-app-bar flat>
 				<!-- product categories -->
-				<v-col
-					class="d-flex ml-5 px-3 text-grey-lighten-5 overflow-x-auto no-scrollbar"
-					style="border: 1px solid #51575733"
-				>
-					<v-btn :active="category === 'spaceship 1'" @click="category = 'spaceship 1'">
-						Spaceship 1
-					</v-btn>
-					<v-btn :active="category === 'spaceship 2'" @click="category = 'spaceship 2'">
-						Spaceship 2
-					</v-btn>
-					<v-btn :active="category === 'spaceship 3'" @click="category = 'spaceship 3'">
-						Spaceship 3
-					</v-btn>
-				</v-col>
+				<UiPosShipsCategories />
 				<v-col class="text-right mr-5 text-grey-lighten-5">
 					<v-btn variant="tonal" :active="pageType === 'menus'" @click="pageType = 'menus'">
 						Menus
@@ -88,6 +74,6 @@ const { ships, addToCart, isListView } = useShips()
 }
 
 .v-toolbar {
-	background: transparent !important;
+	background: rgb(37 38 43 / 72%) !important;
 }
 </style>

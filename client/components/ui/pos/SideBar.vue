@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import numeral from 'numeral'
+
 const cartStore = useCart()
 </script>
 <template>
@@ -6,8 +8,8 @@ const cartStore = useCart()
 		<v-list>
 			<v-list-item class="ma-2">
 				<div class="d-flex align-center">
-					<v-icon icon="mdi-rocket-launch text-h4 mr-3 text-red-darken-3" />
-					<h1 class="text-h4">Spaceship Store</h1>
+					<v-icon icon="mdi-ferry text-h4 mr-3 text-red-darken-3" />
+					<h1 class="text-h4">Ships Store</h1>
 				</div>
 			</v-list-item>
 			<v-divider />
@@ -36,13 +38,11 @@ const cartStore = useCart()
 				</h6>
 				<h6 class="text-caption font-weight-black text-grey-lighten-1 d-flex justify-space-between">
 					<span>Sub Total:</span>
-					<span>${{ new Intl.NumberFormat().format(cartStore.subTotal) }}</span>
+					<span>${{ numeral(cartStore.subTotal).format() }}</span>
 				</h6>
 				<h6 class="text-h6 font-weight-black mb-2 d-flex justify-space-between">
 					<span>Total:</span>
-					<span>
-						${{ new Intl.NumberFormat().format(cartStore.subTotal * cartStore.discount) }}
-					</span>
+					<span>${{ numeral(cartStore.subTotal * cartStore.discount).format() }}</span>
 				</h6>
 
 				<v-btn
