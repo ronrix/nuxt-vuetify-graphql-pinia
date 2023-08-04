@@ -5,6 +5,7 @@ import { InlineConfig } from 'vite'
 export default defineNuxtConfig({
 	srcDir: 'client/',
 	build: { transpile: ['vuetify'] },
+	css: ['~/assets/css/main.css'],
 	imports: { dirs: ['./stores'] },
 	apollo: {
 		autoImports: true,
