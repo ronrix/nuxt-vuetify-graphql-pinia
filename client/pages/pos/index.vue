@@ -43,7 +43,7 @@ const { ships, addToCart, isListView } = useShips()
 				<!-- product items -->
 				<v-container fluid>
 					<v-checkbox v-model="isListView" label="List view" />
-					<v-row no-gutters>
+					<v-row no-gutters align-content="start" cols="12" sm="4">
 						<UiProductCard
 							v-for="ship in ships"
 							:key="ship.id"

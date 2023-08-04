@@ -14,6 +14,7 @@ export interface IShip {
 	name: string
 	type: string
 	image: string
+	price: number
 }
 
 export const useCart = defineStore('cart', () => {

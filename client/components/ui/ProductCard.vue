@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import numeral from 'numeral'
+
 const prop = defineProps({
 	ship: { type: Object, required: true },
 	isListView: { type: Boolean, required: true },
 })
 </script>
 <template>
-	<v-col class="md:v-col-4 lg:v-col-6" :class="{ 'v-col-12': isListView }">
+	<v-col class="md:v-col-4 lg:v-col-6 h-100" :class="{ 'v-col-12': isListView }" style="min-width: 250px">
 		<v-hover v-slot="{ isHovering, props }">
 			<v-card
 				:elevaltion="isHovering ? 12 : 2"
@@ -31,16 +33,25 @@ const prop = defineProps({
 				/>
 				<v-card-title>
 					<!-- product code -->
-					<v-chip class="text-overline mb-1">{{ prop.ship.type }}</v-chip>
+					<div class="d-flex align-center">
+						<v-icon icon="mdi-cart" color="blue-darken-3" size="sm" />
+						<v-chip class="text-overline mb-1">{{ prop.ship.type }}</v-chip>
+					</div>
 
 					<h5 class="text-h5 font-weight-black">{{ prop.ship.name }}</h5>
-					<h5 class="text-h4 mt-2 text-grey-lighten-2">$5M</h5>
+					<h5 class="text-h4 mt-2 text-grey-lighten-2 text-uppercase">
+						${{ numeral(prop.ship.price).format('0.0a') }}
+					</h5>
 				</v-card-title>
 			</v-card>
 		</v-hover>
 	</v-col>
 </template>
-<style lang="scss" scoped>
+<style scoped>
+.text-h5 {
+	white-space: pre-wrap;
+}
+
 .v-card.on-hover {
 	background: #51575733 !important;
 }

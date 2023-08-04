@@ -15,11 +15,21 @@ export const useShips = () => {
 	`
 
 	const { data, pending: loading, error } = useAsyncQuery<{ ships: IShip[] }>(shipsQuery, { limit: 10 })
-	const ships = computed(() => data.value?.ships ?? [])
+	const ships = computed(() => {
+		if (data.value?.ships) {
+			return data.value?.ships.map((ship) => {
+				return {
+					...ship,
+					price: Math.floor(Math.random() * 10000000),
+				}
+			})
+		}
+		return []
+	})
 
 	// methods
 	function addToCart(ship: IShip) {
-		cartStore.addCart({ ...ship, qty: 1, price: 5000000 })
+		cartStore.addCart({ ...ship, qty: 1 })
 	}
 
 	return { ships, loading, error, addToCart, isListView }

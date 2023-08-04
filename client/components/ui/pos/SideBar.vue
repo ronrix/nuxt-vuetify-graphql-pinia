@@ -19,7 +19,7 @@ const cartStore = useCart()
 			</v-list-item>
 			<v-divider />
 		</v-list>
-		<section class="overflow-auto px-3 mt-3 h-75">
+		<section class="overflow-auto px-3 mt-3 h-75 no-scrollbar">
 			<p v-if="!cartStore.carts?.length" class="text-center">
 				<v-icon icon="mdi-cart-off" />
 				No products selected
@@ -30,14 +30,19 @@ const cartStore = useCart()
 		<template #append>
 			<v-divider />
 			<div class="pa-2">
-				<h6 class="text-caption font-weight-black text-grey-lighten-1 text-uppercase">
-					Discount: {{ cartStore.discount * 100 }}%
+				<h6 class="text-caption font-weight-black text-grey-lighten-1 d-flex justify-space-between">
+					<span>Discount:</span>
+					<span>{{ cartStore.discount * 100 }}%</span>
 				</h6>
-				<h6 class="text-caption font-weight-black text-grey-lighten-1">
-					Sub Total: ${{ new Intl.NumberFormat().format(cartStore.subTotal) }}
+				<h6 class="text-caption font-weight-black text-grey-lighten-1 d-flex justify-space-between">
+					<span>Sub Total:</span>
+					<span>${{ new Intl.NumberFormat().format(cartStore.subTotal) }}</span>
 				</h6>
-				<h6 class="text-h6 font-weight-black mb-2">
-					Total: ${{ new Intl.NumberFormat().format(cartStore.subTotal * cartStore.discount) }}
+				<h6 class="text-h6 font-weight-black mb-2 d-flex justify-space-between">
+					<span>Total:</span>
+					<span>
+						${{ new Intl.NumberFormat().format(cartStore.subTotal * cartStore.discount) }}
+					</span>
 				</h6>
 
 				<v-btn
