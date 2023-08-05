@@ -12,14 +12,14 @@ const prop = defineProps<{
 		<v-col cols="2">
 			<UiQuantityBtn :id="prop.cart.id" :qty="prop.cart.qty" />
 		</v-col>
-		<v-col class="text-h6 font-weight-black d-flex flex-column">
+		<v-col class="text-h6 font-weight-black d-flex flex-column prevent-select">
 			<span>{{ prop.cart.name }}</span>
 			<!-- product category -->
-			<v-chip class="text-overline bg-orange-lighten-2 font-weight-black">
+			<v-chip class="text-overline bg-orange-lighten-2 font-weight-black align-self-start">
 				{{ prop.cart.type }}
 			</v-chip>
 		</v-col>
-		<v-col class="text-h5 text-uppercase" cols="3">
+		<v-col class="text-h5 text-uppercase prevent-select" cols="3">
 			<h5>${{ numeral(prop.cart.price).format('0.0a') }}</h5>
 		</v-col>
 		<v-btn variant="text" color="red-darken-2" @click="cartStore.removeProduct(prop.cart.id)">
