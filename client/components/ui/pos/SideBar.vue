@@ -4,33 +4,31 @@ import numeral from 'numeral'
 const cartStore = useCart()
 </script>
 <template>
-	<v-navigation-drawer
-		:width="400"
-		permanent
-		class="text-grey-lighten-5"
-		style="border-right: 1px solid #4b4d51"
-	>
+	<v-navigation-drawer :width="400" class="text-grey-lighten-5" style="border-right: 1px solid #4b4d51">
 		<v-list>
 			<v-list-item class="ma-2">
 				<div class="d-flex align-center">
 					<v-icon icon="mdi-ferry text-h4 mr-3" style="color: #37ad8a" />
-					<h1 class="text-h4">Ships Store</h1>
+					<h1 class="text-h4 font-weight-bold">Ships Store</h1>
 				</div>
 			</v-list-item>
 			<v-divider />
 			<v-list-item color="#93939C">
-				<h5>
-					<v-icon icon="mdi-cart-variant" />
+				<h5 class="text-overline font-weight-bold">
+					<v-icon icon="mdi-cart-variant" class="text-orange-lighten-2 mr-2" />
 					Products
 				</h5>
 			</v-list-item>
 			<v-divider />
 		</v-list>
 		<section class="overflow-auto px-3 mt-3 h-75">
-			<p v-if="!cartStore.carts.length" class="text-center">
-				<v-icon icon="mdi-cart-off" />
+			<h6
+				v-if="!cartStore.carts.length"
+				class="text-center d-flex flex-column align-center font-weight-bold text-h6"
+			>
+				<v-icon icon="mdi-cart-off" class="text-h3 text-grey-lighten-1" />
 				No products selected
-			</p>
+			</h6>
 			<UiCheckoutProduct v-for="cart in cartStore.carts" v-else :key="cart.id" :cart="cart" />
 		</section>
 
@@ -53,7 +51,6 @@ const cartStore = useCart()
 				<v-btn
 					block
 					:disabled="!cartStore.isReadyToProcess"
-					variant="tonal"
 					size="x-large"
 					class="mb-3"
 					color="blue-darken-1"
@@ -61,7 +58,7 @@ const cartStore = useCart()
 				>
 					Checkout
 				</v-btn>
-				<v-btn :disabled="!cartStore.isReadyToProcess" block variant="tonal" size="x-large">
+				<v-btn :disabled="!cartStore.isReadyToProcess" block variant="outlined" size="x-large">
 					Dine In
 				</v-btn>
 			</div>

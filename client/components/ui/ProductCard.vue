@@ -30,14 +30,15 @@ const prop = defineProps<{
 				<UiImgCard v-if="!isListView" :img="prop.ship.image" />
 				<v-card-title>
 					<div class="d-flex align-center">
-						<v-icon icon="mdi-cart" color="blue-darken-3" size="sm" />
-						<v-chip class="text-overline mb-1 prevent-select">{{ prop.ship.type }}</v-chip>
+						<v-chip class="text-overline mb-1 prevent-select">
+							<v-icon icon="mdi-cart" color="blue-darken-3" class="mr-2" />
+							{{ prop.ship.type }}
+						</v-chip>
 					</div>
 
 					<h5 class="text-h5 font-weight-black prevent-select">{{ prop.ship.name }}</h5>
 					<h5
-						class="text-h4 mt-2 text-uppercase font-weight-bold prevent-select"
-						style="color: #de8624"
+						class="text-h4 mt-2 text-uppercase font-weight-bold prevent-select text-green-darken-2"
 					>
 						${{ numeral(prop.ship.price).format('0.0a') }}
 					</h5>
