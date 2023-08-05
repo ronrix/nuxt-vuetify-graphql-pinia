@@ -4,11 +4,16 @@ import numeral from 'numeral'
 const cartStore = useCart()
 </script>
 <template>
-	<v-navigation-drawer :width="400" permanent class="text-grey-lighten-5">
+	<v-navigation-drawer
+		:width="400"
+		permanent
+		class="text-grey-lighten-5"
+		style="border-right: 1px solid #4b4d51"
+	>
 		<v-list>
 			<v-list-item class="ma-2">
 				<div class="d-flex align-center">
-					<v-icon icon="mdi-ferry text-h4 mr-3 text-red-darken-3" />
+					<v-icon icon="mdi-ferry text-h4 mr-3" style="color: #37ad8a" />
 					<h1 class="text-h4">Ships Store</h1>
 				</div>
 			</v-list-item>
@@ -22,7 +27,7 @@ const cartStore = useCart()
 			<v-divider />
 		</v-list>
 		<section class="overflow-auto px-3 mt-3 h-75 no-scrollbar">
-			<p v-if="!cartStore.carts?.length" class="text-center">
+			<p v-if="!cartStore.carts.length" class="text-center">
 				<v-icon icon="mdi-cart-off" />
 				No products selected
 			</p>
@@ -34,7 +39,7 @@ const cartStore = useCart()
 			<div class="pa-2">
 				<h6 class="text-caption font-weight-black text-grey-lighten-1 d-flex justify-space-between">
 					<span>Discount:</span>
-					<span>{{ cartStore.discount * 100 }}%</span>
+					<span>{{ cartStore.discount }}%</span>
 				</h6>
 				<h6 class="text-caption font-weight-black text-grey-lighten-1 d-flex justify-space-between">
 					<span>Sub Total:</span>
@@ -42,11 +47,12 @@ const cartStore = useCart()
 				</h6>
 				<h6 class="text-h6 font-weight-black mb-2 d-flex justify-space-between">
 					<span>Total:</span>
-					<span>${{ numeral(cartStore.subTotal * cartStore.discount).format() }}</span>
+					<span>${{ numeral(cartStore.totalPrice).format() }}</span>
 				</h6>
 
 				<v-btn
 					block
+					:disabled="!cartStore.isReadyToProcess"
 					variant="tonal"
 					size="x-large"
 					class="mb-3"
@@ -55,7 +61,9 @@ const cartStore = useCart()
 				>
 					Checkout
 				</v-btn>
-				<v-btn block variant="tonal" size="x-large">Dine In</v-btn>
+				<v-btn :disabled="!cartStore.isReadyToProcess" block variant="tonal" size="x-large">
+					Dine In
+				</v-btn>
 			</div>
 		</template>
 	</v-navigation-drawer>

@@ -14,18 +14,23 @@ const prop = defineProps({
 		<v-col class="text-h6 font-weight-black d-flex flex-column">
 			<span>{{ prop.cart.name }}</span>
 			<!-- product category -->
-			<span class="text-overline text-grey-lighten-1 font-weight-black">{{ prop.cart.type }}</span>
+			<v-chip class="text-overline bg-orange-lighten-2 font-weight-black">
+				{{ prop.cart.type }}
+			</v-chip>
 		</v-col>
 		<v-col class="text-h5 text-uppercase" cols="3">
 			<h5>${{ numeral(prop.cart.price).format('0.0a') }}</h5>
 		</v-col>
-		<v-btn variant="text" color="red-lighten-1" @click="cartStore.removeProduct(prop.cart.id)">
+		<v-btn variant="text" color="red-darken-2" @click="cartStore.removeProduct(prop.cart.id)">
 			<v-icon icon="mdi-trash-can" />
 		</v-btn>
 	</div>
 </template>
-<style lang="scss" scoped>
-div > div.d-flex {
+<style scoped>
+.checkout-card {
 	position: relative;
+	overflow: hidden;
+	background: transparent;
+	border-radius: 20px;
 }
 </style>

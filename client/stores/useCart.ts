@@ -20,7 +20,10 @@ export interface IShip {
 export const useCart = defineStore('cart', () => {
 	const carts = ref<Cart[]>([])
 	const subTotal = ref<number>(0)
-	const discount = ref<number>(0.2)
+
+	const discount = computed<number>(() => 0.2 * 100)
+	const isReadyToProcess = computed<boolean>(() => subTotal.value > 0)
+	const totalPrice = computed<number>(() => subTotal.value * discount.value)
 
 	//  actions
 	function addCart(data: Cart) {
@@ -71,6 +74,7 @@ export const useCart = defineStore('cart', () => {
 
 	// submit checkout
 	function checkoutCart() {
+		if (subTotal.value === 0) return
 		swal({
 			icon: 'success',
 			title: 'Successful Checkout',
@@ -80,5 +84,16 @@ export const useCart = defineStore('cart', () => {
 		})
 	}
 
-	return { carts, addCart, incrementQty, decrementQty, removeProduct, subTotal, discount, checkoutCart }
+	return {
+		carts,
+		addCart,
+		incrementQty,
+		decrementQty,
+		removeProduct,
+		subTotal,
+		discount,
+		checkoutCart,
+		isReadyToProcess,
+		totalPrice,
+	}
 })

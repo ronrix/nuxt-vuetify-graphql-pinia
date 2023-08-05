@@ -26,30 +26,15 @@ const prop = defineProps({
 					border: 1px solid #51575733;
 				"
 			>
-				<v-img
-					v-if="!isListView"
-					:src="prop.ship.image"
-					lazy-src="https://images.unsplash.com/photo-1601892782633-675465fa7f3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=876&q=80"
-					height="150px"
-					cover
-					style="border-radius: 10px"
-					rounded
-				>
-					<template #placeholder>
-						<div class="d-flex align-center justify-center fill-height">
-							<v-progress-circular color="grey-lighten-4" indeterminate />
-						</div>
-					</template>
-				</v-img>
+				<UiImgCard v-if="!isListView" :img="prop.ship.image" />
 				<v-card-title>
-					<!-- product code -->
 					<div class="d-flex align-center">
 						<v-icon icon="mdi-cart" color="blue-darken-3" size="sm" />
 						<v-chip class="text-overline mb-1">{{ prop.ship.type }}</v-chip>
 					</div>
 
 					<h5 class="text-h5 font-weight-black">{{ prop.ship.name }}</h5>
-					<h5 class="text-h4 mt-2 text-grey-lighten-2 text-uppercase">
+					<h5 class="text-h4 mt-2 text-uppercase font-weight-bold" style="color: #de8624">
 						${{ numeral(prop.ship.price).format('0.0a') }}
 					</h5>
 				</v-card-title>
