@@ -26,7 +26,7 @@ const cartStore = useCart()
 			</v-list-item>
 			<v-divider />
 		</v-list>
-		<section class="overflow-auto px-3 mt-3 h-75 no-scrollbar">
+		<section class="overflow-auto px-3 mt-3 h-75">
 			<p v-if="!cartStore.carts.length" class="text-center">
 				<v-icon icon="mdi-cart-off" />
 				No products selected

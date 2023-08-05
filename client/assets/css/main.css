@@ -23,8 +23,28 @@ body {
 	scrollbar-width: none; /* Firefox */
 }
 
-.prevent-select {
-	user-select: none; /* Safari */
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #66666b;
+}
+
+.prevent-select { /* Safari */
 	user-select: none; /* Firefox */
 	user-select: none; /* Opera */
 	user-select: none; /* IE 10 and IE 11 */
