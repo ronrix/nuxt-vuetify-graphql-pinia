@@ -1,4 +1,8 @@
 <script setup lang="ts">
+useHead({
+	title: 'POS System',
+	meta: [{ name: 'description', content: 'Poin of Sale System with Nuxt, Graphl and Vuetify.' }],
+})
 const pageType = ref<string>('menus')
 const { ships, addToCart, isListView } = useShips()
 </script>
