@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import numeral from 'numeral'
+import { IShip } from '@/types/'
 
-const prop = defineProps({
-	ship: { type: Object, required: true },
-	isListView: { type: Boolean, required: true },
-})
+const prop = defineProps<{
+	ship: IShip
+	isListView: boolean
+}>()
 </script>
 <template>
 	<v-col

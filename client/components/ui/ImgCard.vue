@@ -1,11 +1,11 @@
 <script setup lang="ts">
-defineProps({
-	img: { type: String, required: true },
-})
+const props = defineProps<{
+	img: string
+}>()
 </script>
 <template>
 	<v-img
-		:src="img"
+		:src="props.img"
 		lazy-src="https://images.unsplash.com/photo-1601892782633-675465fa7f3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=876&q=80"
 		height="150px"
 		cover

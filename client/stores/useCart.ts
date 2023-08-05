@@ -1,21 +1,5 @@
 import swal from 'sweetalert'
-
-interface Cart {
-	id: string
-	name: string
-	type: string
-	image: string
-	qty: number
-	price: number
-}
-
-export interface IShip {
-	id: string
-	name: string
-	type: string
-	image: string
-	price: number
-}
+import { Cart } from '@/types'
 
 export const useCart = defineStore('cart', () => {
 	const carts = ref<Cart[]>([])

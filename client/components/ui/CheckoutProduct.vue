@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import numeral from 'numeral'
+import { Cart } from '@/types/'
 
 const cartStore = useCart()
-const prop = defineProps({
-	cart: { type: Object, required: true },
-})
+const prop = defineProps<{
+	cart: Cart
+}>()
 </script>
 <template>
 	<div class="d-flex align-center mb-1" style="border-radius: 20px; background: #51575733">

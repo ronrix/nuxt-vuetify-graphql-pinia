@@ -1,4 +1,4 @@
-import { IShip } from '../stores/useCart'
+import { IShip } from '@/types/'
 
 export const useShips = () => {
 	const isListView = ref<boolean>(false)

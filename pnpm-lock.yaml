@@ -11,6 +11,9 @@ dependencies:
   sass:
     specifier: ^1.60.0
     version: 1.60.0
+  sweetalert:
+    specifier: ^2.1.2
+    version: 2.1.2
   vuetify:
     specifier: ^3.1.11
     version: 3.1.11(vite-plugin-vuetify@1.0.2)(vue@3.2.47)
@@ -25,6 +28,9 @@ devDependencies:
   '@nuxtjs/eslint-config-typescript':
     specifier: ^12.0.0
     version: 12.0.0(eslint@8.36.0)(typescript@5.0.2)
+  '@types/numeral':
+    specifier: ^2.0.2
+    version: 2.0.2
   cz-conventional-changelog:
     specifier: ^3.3.0
     version: 3.3.0
@@ -46,6 +52,9 @@ devDependencies:
   lint-staged:
     specifier: ^13.2.0
     version: 13.2.0
+  numeral:
+    specifier: ^2.0.6
+    version: 2.0.6
   nuxt:
     specifier: ^3.3.2
     version: 3.3.2(@types/node@18.15.10)(eslint@8.36.0)(rollup@3.20.2)(sass@1.60.0)(stylelint@14.16.1)(typescript@5.0.2)
@@ -1630,6 +1639,13 @@ packages:
     resolution:
       {
         integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==,
+      }
+    dev: true
+
+  /@types/numeral@2.0.2:
+    resolution:
+      {
+        integrity: sha512-A8F30k2gYJ/6e07spSCPpkuZu79LCnkPTvqmIWQzNGcrzwFKpVOydG41lNt5wZXjSI149qjyzC2L1+F2PD/NUA==,
       }
     dev: true
 
@@ -3862,6 +3878,13 @@ packages:
       is-date-object: 1.0.5
       is-symbol: 1.0.4
     dev: true
+
+  /es6-object-assign@1.1.0:
+    resolution:
+      {
+        integrity: sha512-MEl9uirslVwqQU369iHNWZXsI8yaZYGg/D65aOgZkeyFJwHYSxilf7rQzXKI7DdDuBPrBXbfk3sl9hJhmd5AUw==,
+      }
+    dev: false
 
   /esbuild@0.17.14:
     resolution:
@@ -7111,6 +7134,13 @@ packages:
       boolbase: 1.0.0
     dev: true
 
+  /numeral@2.0.6:
+    resolution:
+      {
+        integrity: sha512-qaKRmtYPZ5qdw4jWJD6bxEf1FJEqllJrwxCLIm0sQU/A7v2/czigzOb+C2uSiFsa9lBUzeH7M1oK+Q+OLxL3kA==,
+      }
+    dev: true
+
   /nuxi@3.3.2:
     resolution:
       {
@@ -8167,6 +8197,13 @@ packages:
       {
         integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==,
       }
+
+  /promise-polyfill@6.1.0:
+    resolution:
+      {
+        integrity: sha512-g0LWaH0gFsxovsU7R5LrrhHhWAWiHRnh1GPrhXnPgYsDkIqjRYUYSZEsej/wtleDrz5xVSIDbeKfidztp2XHFQ==,
+      }
+    dev: false
 
   /prop-types@15.8.1:
     resolution:
@@ -9399,6 +9436,16 @@ packages:
       picocolors: 1.0.0
       stable: 0.1.8
     dev: true
+
+  /sweetalert@2.1.2:
+    resolution:
+      {
+        integrity: sha512-iWx7X4anRBNDa/a+AdTmvAzQtkN1+s4j/JJRWlHpYE8Qimkohs8/XnFcWeYHH2lMA8LRCa5tj2d244If3S/hzA==,
+      }
+    dependencies:
+      es6-object-assign: 1.1.0
+      promise-polyfill: 6.1.0
+    dev: false
 
   /symbol-observable@4.0.0:
     resolution:
