@@ -1,7 +1,7 @@
 <script setup lang="ts">
 useHead({
 	title: 'POS System',
-	meta: [{ name: 'description', content: 'Poin of Sale System with Nuxt, Graphl and Vuetify.' }],
+	meta: [{ name: 'description', content: 'Point of Sale System with Nuxt, Graphl and Vuetify.' }],
 })
 const pageType = ref<string>('menus')
 const { ships, addToCart, isListView } = useShips()
@@ -71,9 +71,10 @@ const { ships, addToCart, isListView } = useShips()
 	bottom: 0;
 	right: 0;
 	border: none;
-	backdrop-filter: blur(25px) saturate(200%);
 	backdrop-filter: blur(16px) saturate(200%);
-	background-color: rgb(52 58 8 / 20%);
+
+	/* background-color: rgb(52 58 8 / 20%); */
+	background-image: linear-gradient(35deg, #1d2025, #3b3c41);
 	z-index: -1;
 }
 

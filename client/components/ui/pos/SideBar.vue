@@ -60,8 +60,3 @@ const cartStore = useCart()
 		</template>
 	</v-navigation-drawer>
 </template>
-<style scoped>
-nav.v-navigation-drawer {
-	background-color: transparent !important;
-}
-</style>
