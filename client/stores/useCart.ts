@@ -46,12 +46,27 @@ export const useCart = defineStore('cart', () => {
 		}
 	}
 
+	/*
+		compute product price with the inputed qty from onChange event
+	*/
+	function computeProductPriceWithQty(index: number) {
+		const theCart = carts.value[index]
+		const cartTotalPrice = theCart.qty * theCart.price
+		return cartTotalPrice
+	}
+
+	function inputQty(value: number, id: string) {
+		const cartExist = carts.value.findIndex((cart) => cart.id === id)
+		carts.value[cartExist].qty = value
+		const thePrice = computeProductPriceWithQty(cartExist) - carts.value[cartExist].price
+		subTotal.value += thePrice
+	}
+
 	function removeProduct(id: string) {
 		const cartExist = carts.value.findIndex((cart) => cart.id === id)
 
-		const theCart = carts.value[cartExist]
-		const cartTotalPrice = theCart.qty * theCart.price
-		subtractPrice(cartTotalPrice)
+		const thePrice = computeProductPriceWithQty(cartExist)
+		subtractPrice(thePrice)
 
 		carts.value.splice(cartExist, 1)
 	}
@@ -79,5 +94,6 @@ export const useCart = defineStore('cart', () => {
 		checkoutCart,
 		isReadyToProcess,
 		totalPrice,
+		inputQty,
 	}
 })

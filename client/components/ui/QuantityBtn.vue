@@ -4,6 +4,10 @@ const props = defineProps<{
 	qty: number
 	id: string
 }>()
+
+const onInput = (e: Event) => {
+	cartStore.inputQty(parseInt((e.target as HTMLInputElement).value), props.id)
+}
 </script>
 <template>
 	<div class="d-flex flex-column">
@@ -20,6 +24,7 @@ const props = defineProps<{
 			style="border: 1px solid #484b4e; font-size: 12px; outline: none"
 			:value="props.qty"
 			class="text-center text-white"
+			@change="onInput"
 		/>
 		<v-btn size="sm" class="text-h6" variant="tonal" @click="cartStore.decrementQty(props.id)">-</v-btn>
 	</div>
