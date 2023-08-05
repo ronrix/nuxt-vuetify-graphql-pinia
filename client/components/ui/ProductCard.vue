@@ -34,7 +34,13 @@ const prop = defineProps({
 					cover
 					style="border-radius: 10px"
 					rounded
-				/>
+				>
+					<template #placeholder>
+						<div class="d-flex align-center justify-center fill-height">
+							<v-progress-circular color="grey-lighten-4" indeterminate />
+						</div>
+					</template>
+				</v-img>
 				<v-card-title>
 					<!-- product code -->
 					<div class="d-flex align-center">
