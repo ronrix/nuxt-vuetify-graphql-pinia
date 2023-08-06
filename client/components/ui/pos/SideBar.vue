@@ -37,7 +37,7 @@ const cartStore = useCart()
 			<div class="pa-2">
 				<h6 class="text-caption font-weight-black text-grey-lighten-1 d-flex justify-space-between">
 					<span>Discount:</span>
-					<span>{{ cartStore.discount }}%</span>
+					<span>{{ cartStore.discountPercentage }}%</span>
 				</h6>
 				<h6 class="text-caption font-weight-black text-grey-lighten-1 d-flex justify-space-between">
 					<span>Sub Total:</span>

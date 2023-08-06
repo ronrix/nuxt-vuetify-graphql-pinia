@@ -5,7 +5,8 @@ export const useCart = defineStore('cart', () => {
 	const carts = ref<Cart[]>([])
 	const subTotal = ref<number>(0)
 
-	const discount = computed<number>(() => 0.2 * 100)
+	const discount = ref<number>(0.2)
+	const discountPercentage = computed<number>(() => discount.value * 100)
 	const isReadyToProcess = computed<boolean>(() => subTotal.value > 0)
 	const totalPrice = computed<number>(() => subTotal.value * discount.value)
 
@@ -91,6 +92,7 @@ export const useCart = defineStore('cart', () => {
 		removeProduct,
 		subTotal,
 		discount,
+		discountPercentage,
 		checkoutCart,
 		isReadyToProcess,
 		totalPrice,
