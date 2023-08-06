@@ -27,7 +27,7 @@ const prop = defineProps<{
 					border: 1px solid #51575733;
 				"
 			>
-				<UiImgCard v-if="!isListView" :img="prop.ship.image" />
+				<ProductsImg v-if="!isListView" :img="prop.ship.image" />
 				<v-card-title>
 					<div class="d-flex align-center">
 						<v-chip class="text-overline mb-1 prevent-select">

@@ -4,48 +4,35 @@ useHead({
 	meta: [{ name: 'description', content: 'Point of Sale System with Nuxt, Graphl and Vuetify.' }],
 })
 const pageType = ref<string>('menus')
-const { ships, addToCart, isListView } = useShips()
 </script>
 <template>
-	<!-- sidebar -->
-	<UiMainWrapper>
-		<v-layout>
-			<div class="glass" />
-			<UiPosSideBar />
+	<v-layout>
+		<div class="glass" />
+		<SideBar />
 
-			<v-app-bar flat>
-				<!-- product categories -->
-				<UiPosShipsCategories />
-				<v-col class="text-right mr-5 text-grey-lighten-5">
-					<v-btn variant="tonal" :active="pageType === 'menus'" @click="pageType = 'menus'">
-						Menus
-					</v-btn>
-					<v-btn variant="tonal" :active="pageType === 'carts'" @click="pageType = 'carts'">
-						Carts
-					</v-btn>
-					<v-btn variant="tonal" :active="pageType === 'tables'" @click="pageType = 'tables'">
-						Tables
-					</v-btn>
-				</v-col>
-			</v-app-bar>
+		<v-app-bar flat>
+			<!-- product categories -->
+			<Categories />
+			<v-col class="text-right mr-5 text-grey-lighten-5">
+				<v-btn variant="tonal" :active="pageType === 'menus'" @click="pageType = 'menus'">
+					Menus
+				</v-btn>
+				<v-btn variant="tonal" :active="pageType === 'carts'" @click="pageType = 'carts'">
+					Carts
+				</v-btn>
+				<v-btn variant="tonal" :active="pageType === 'tables'" @click="pageType = 'tables'">
+					Tables
+				</v-btn>
+			</v-col>
+		</v-app-bar>
 
-			<v-main class="overflow-auto" style="min-height: 300px">
-				<!-- product items -->
-				<v-container fluid>
-					<v-checkbox v-model="isListView" label="List view" />
-					<v-row no-gutters align-content="start" cols="12" sm="4">
-						<UiProductCard
-							v-for="ship in ships"
-							:key="ship.id"
-							:ship="ship"
-							:is-list-view="isListView"
-							@click="addToCart(ship)"
-						/>
-					</v-row>
-				</v-container>
-			</v-main>
-		</v-layout>
-	</UiMainWrapper>
+		<v-main class="overflow-auto" style="min-height: 300px">
+			<!-- product items -->
+			<v-container fluid>
+				<Products />
+			</v-container>
+		</v-main>
+	</v-layout>
 </template>
 <style scoped>
 .v-navigation-drawer,

@@ -16,7 +16,7 @@ const cartStore = useCart()
 			<v-list-item color="#93939C">
 				<h5 class="text-overline font-weight-bold">
 					<v-icon icon="mdi-cart-variant" class="text-orange-lighten-2 mr-2" />
-					Products
+					Order Details
 				</h5>
 			</v-list-item>
 			<v-divider />
@@ -29,7 +29,7 @@ const cartStore = useCart()
 				<v-icon icon="mdi-cart-off" class="text-h3 text-grey-lighten-1" />
 				No products selected
 			</h6>
-			<UiCheckoutProduct v-for="cart in cartStore.carts" v-else :key="cart.id" :cart="cart" />
+			<QueueList v-for="cart in cartStore.carts" v-else :key="cart.id" :cart="cart" />
 		</section>
 
 		<template #append>

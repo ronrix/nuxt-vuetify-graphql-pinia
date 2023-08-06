@@ -1,6 +1,6 @@
 import { IShip } from '@/types/'
 
-export const useShips = () => {
+export const useProducts = () => {
 	const isListView = ref<boolean>(false)
 	const cartStore = useCart()
 	const shipsQuery = gql`
