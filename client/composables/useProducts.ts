@@ -20,7 +20,7 @@ export const useProducts = () => {
 			return data.value?.ships.map((ship) => {
 				return {
 					...ship,
-					price: Math.floor(Math.random() * 10000000),
+					price: 5000,
 				}
 			})
 		}
