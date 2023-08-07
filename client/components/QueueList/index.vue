@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import numeral from 'numeral'
 import { Cart } from '@/types/'
 
 const prop = defineProps<{
@@ -13,16 +12,8 @@ const prop = defineProps<{
 		</v-col>
 
 		<v-col class="text-h6 font-weight-black d-flex flex-column prevent-select">
-			<div>
-				<h4>{{ prop.cart.name }}</h4>
-				<v-chip class="text-caption prevent-select" variant="outlined" color="info" size="small">
-					{{ prop.cart.type }}
-				</v-chip>
-			</div>
-			<div class="d-flex justify-space-between text-uppercase mt-2">
-				<UiQtyBtns :id="prop.cart.id" :qty="prop.cart.qty" />
-				<h3>${{ numeral(prop.cart.price).format('0.0a') }}</h3>
-			</div>
+			<QueueListProductName :name="prop.cart.name" :category="prop.cart.type" />
+			<QueueListProductPrice :id="prop.cart.id" :qty="prop.cart.qty" :price="prop.cart.price" />
 		</v-col>
 		<v-col cols="2" class="" style="height: 100%">
 			<QueueListDelBtn :id="prop.cart.id" />
@@ -34,14 +25,17 @@ const prop = defineProps<{
 .queue-list {
 	position: relative;
 	background: transparent;
+	cursor: pointer;
 }
+
 .queue-list:hover {
-	background: var(--light-grey-1);
+	background: var(--light-grey-1) !important;
 }
 
 .v-chip {
 	white-space: pre-wrap;
 }
+
 .v-card.on-hover {
 	background: var(--light-grey-1) !important;
 }
