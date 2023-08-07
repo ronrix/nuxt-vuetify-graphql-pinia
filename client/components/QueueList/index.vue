@@ -7,36 +7,42 @@ const prop = defineProps<{
 }>()
 </script>
 <template>
-	<div class="d-flex align-center mb-1 queue-list">
-		<UiGlass style="background: #51575733" />
-
-		<v-col cols="2">
-			<UiQtyBtns :id="prop.cart.id" :qty="prop.cart.qty" />
+	<div class="d-flex align-center mb-1 queue-list rounded rounded-xl mb-1">
+		<v-col cols="3" style="position: relative">
+			<ProductsImg :img="prop.cart.image" />
 		</v-col>
 
 		<v-col class="text-h6 font-weight-black d-flex flex-column prevent-select">
-			<span>{{ prop.cart.name }}</span>
-			<!-- product category -->
-			<v-chip class="text-caption bg-green-lighten-2 font-weight-black align-self-start" variant="flat">
-				{{ prop.cart.type }}
-			</v-chip>
+			<div>
+				<h4>{{ prop.cart.name }}</h4>
+				<v-chip class="text-caption prevent-select" variant="outlined" color="info" size="small">
+					{{ prop.cart.type }}
+				</v-chip>
+			</div>
+			<div class="d-flex justify-space-between text-uppercase mt-2">
+				<UiQtyBtns :id="prop.cart.id" :qty="prop.cart.qty" />
+				<h3>${{ numeral(prop.cart.price).format('0.0a') }}</h3>
+			</div>
 		</v-col>
-
-		<v-col class="text-h5 text-uppercase prevent-select text-green-darken-2" cols="3">
-			<h5>${{ numeral(prop.cart.price).format('0.0a') }}</h5>
+		<v-col cols="2" class="" style="height: 100%">
+			<QueueListDelBtn :id="prop.cart.id" />
 		</v-col>
-
-		<QueueListDelBtn :id="prop.cart.id" />
 	</div>
+	<v-divider style="background: var(--line)" />
 </template>
 <style scoped>
 .queue-list {
 	position: relative;
 	background: transparent;
-	border-radius: 20px;
+}
+.queue-list:hover {
+	background: var(--light-grey-1);
 }
 
 .v-chip {
 	white-space: pre-wrap;
+}
+.v-card.on-hover {
+	background: var(--light-grey-1) !important;
 }
 </style>

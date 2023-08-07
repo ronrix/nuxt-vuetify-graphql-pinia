@@ -8,51 +8,50 @@ const prop = defineProps<{
 }>()
 </script>
 <template>
-	<v-col
-		class="md:v-col-4 lg:v-col-6"
-		:class="{ 'v-col-12': isListView }"
-		style="min-width: 250px; max-height: 340px"
-	>
+	<v-col :class="{ 'v-col-12': isListView }" style="min-width: 350px; max-height: 340px">
 		<v-hover v-slot="{ isHovering, props }">
 			<v-card
-				:elevaltion="isHovering ? 12 : 2"
 				v-bind="props"
-				:class="{ 'on-hover': isHovering }"
+				:class="{
+					'mr-2 mb-2 h-100 d-flex rounded rounded-xl border': true,
+					'on-hover': isHovering,
+				}"
 				variant="text"
-				class="mr-2 mb-2 pa-2 h-100"
-				style="
-					cursor: pointer;
-					background-color: #191b1a33;
-					border-radius: 10px;
-					border: 1px solid #51575733;
-				"
+				style="cursor: pointer; background-color: #ffff"
 			>
-				<ProductsImg v-if="!isListView" :img="prop.ship.image" />
-				<v-card-title>
-					<div class="d-flex align-center">
-						<v-chip class="text-overline mb-1 prevent-select">
-							<v-icon icon="mdi-cart" color="blue-darken-3" class="mr-2" />
-							{{ prop.ship.type }}
-						</v-chip>
-					</div>
-
-					<h5 class="text-h5 font-weight-black prevent-select">{{ prop.ship.name }}</h5>
+				<v-col :cols="!isListView ? 4 : 'auto'">
+					<ProductsImg v-if="!isListView" :img="prop.ship.image" style="max-width: 300px" />
 					<h5
-						class="text-h4 mt-2 text-uppercase font-weight-bold prevent-select text-green-darken-2"
+						class="text-h4 mt-2 text-uppercase prevent-select d-flex align-start font-weight-medium"
 					>
-						${{ numeral(prop.ship.price).format('0.0a') }}
+						<span class="text-h6 font-weight-black" style="color: var(--primary)">$</span>
+						<span>{{ numeral(prop.ship.price).format('0.0a') }}</span>
 					</h5>
-				</v-card-title>
+				</v-col>
+				<v-col>
+					<v-card-title class="flex-grow-2">
+						<h5 class="font-weight-black prevent-select" style="white-space: pre-wrap">
+							{{ prop.ship.name }}
+						</h5>
+						<div class="d-flex align-center">
+							<v-chip class="text-caption mb-1 prevent-select" variant="outlined" color="info">
+								{{ prop.ship.type }}
+							</v-chip>
+						</div>
+						<p class="text-caption font-weight-medium" :style="{ whiteSpace: 'pre-wrap' }">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas, labore?
+						</p>
+					</v-card-title>
+				</v-col>
 			</v-card>
 		</v-hover>
 	</v-col>
 </template>
 <style scoped>
-.text-h5 {
-	white-space: pre-wrap;
-}
-
 .v-card.on-hover {
-	background: #51575733 !important;
+	background: var(--light-grey) !important;
+	box-shadow: 1px 0px 8px -4px rgba(0, 0, 0, 0.7);
+	-webkit-box-shadow: 1px 0px 8px -4px rgba(0, 0, 0, 0.7);
+	-moz-box-shadow: 1px 0px 8px -4px rgba(0, 0, 0, 0.7);
 }
 </style>

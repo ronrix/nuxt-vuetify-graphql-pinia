@@ -10,10 +10,11 @@ const onInput = (e: Event) => {
 }
 </script>
 <template>
-	<div class="d-flex flex-column">
+	<div class="d-flex align-center">
 		<v-btn
 			size="sm"
-			class="text-h6 bg-blue-darken-1"
+			class="d-flex align-items text-white"
+			style="width: 30px; height: 30px; border-radius: 50%; background-color: var(--primary)"
 			variant="tonal"
 			@click="cartStore.incrementQty(props.id)"
 		>
@@ -21,11 +22,19 @@ const onInput = (e: Event) => {
 		</v-btn>
 		<input
 			type="text"
-			style="border: 1px solid #484b4e; font-size: 12px; outline: none"
+			style="border: none; font-size: 12px; outline: none; width: 50px"
 			:value="props.qty"
-			class="text-center text-white"
+			class="text-center"
 			@change="onInput"
 		/>
-		<v-btn size="sm" class="text-h6" variant="tonal" @click="cartStore.decrementQty(props.id)">-</v-btn>
+		<v-btn
+			size="sm"
+			class="d-flex align-items"
+			variant="tonal"
+			style="width: 30px; height: 30px; border-radius: 50%"
+			@click="cartStore.decrementQty(props.id)"
+		>
+			-
+		</v-btn>
 	</div>
 </template>

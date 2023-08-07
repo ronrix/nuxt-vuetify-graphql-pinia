@@ -1,71 +1,55 @@
 <script setup lang="ts">
-useHead({
-	title: 'POS System',
-	meta: [{ name: 'description', content: 'Point of Sale System with Nuxt, Graphl and Vuetify.' }],
-})
-const pageType = ref<string>('menus')
+const { ships, addToCart, isListView } = useProducts()
 </script>
 <template>
-	<v-layout>
-		<div class="glass" />
-		<SideBar />
+	<main>
+		<section style="border-bottom: 1px solid var(--line)">
+			<v-tabs
+				rounded
+				class="py-1 px-3 rounded rounded-xl"
+				style="background-color: var(--light-grey-2)"
+				slider-color="transparent"
+			>
+				<v-tab rounded>American Ship</v-tab>
+				<v-tab rounded>Go Ms</v-tab>
+				<v-tab rounded>Shannon</v-tab>
+				<v-tab rounded>
+					<v-icon icon="mdi-dots-horizontal" />
+				</v-tab>
+			</v-tabs>
+			<div class="d-flex align-center justify-space-between mt-3">
+				<h4 style="font-size: 1.5em" class="d-flex align-center">
+					Menu
+					<span class="text-caption ml-3 font-weight-bold">{{ ships.length }} items</span>
+				</h4>
+				<v-checkbox-btn
+					v-model="isListView"
+					class="pe-2"
+					label="List view"
+					color="info"
+					style="font-size: 13px"
+				/>
+			</div>
+		</section>
 
-		<v-app-bar flat>
-			<!-- product categories -->
-			<Categories />
-			<v-col class="text-right mr-5 text-grey-lighten-5">
-				<v-btn variant="tonal" :active="pageType === 'menus'" @click="pageType = 'menus'">
-					Menus
-				</v-btn>
-				<v-btn variant="tonal" :active="pageType === 'carts'" @click="pageType = 'carts'">
-					Carts
-				</v-btn>
-				<v-btn variant="tonal" :active="pageType === 'tables'" @click="pageType = 'tables'">
-					Tables
-				</v-btn>
-			</v-col>
-		</v-app-bar>
-
-		<v-main class="overflow-auto" style="min-height: 300px">
-			<!-- product items -->
-			<v-container fluid>
-				<Products />
-			</v-container>
-		</v-main>
-	</v-layout>
+		<Products :ships="ships" :add-to-cart="addToCart" :is-list-view="isListView" />
+	</main>
 </template>
 <style scoped>
-.v-navigation-drawer,
-.v-main {
-	position: relative;
-	border: none;
-	background: transparent !important;
+.v-tabs {
+	height: auto;
 }
-
-.v-layout {
-	/* background-image: url('/backdrop-image.avif');
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center; */
-	background-color: rgb(37 38 43);
+.v-tab {
+	text-transform: capitalize;
+	font-weight: 600;
+	font-family: 'Poppins', sans-serif;
+	color: var(--dark-grey);
 }
-
-.v-layout div.glass::after {
-	content: '';
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	border: none;
-	backdrop-filter: blur(16px) saturate(200%);
-
-	/* background-color: rgb(52 58 8 / 20%); */
-	background-image: linear-gradient(35deg, #1d2025, #3b3c41);
-	z-index: -1;
+.v-tab--selected {
+	background: #ffff;
+	color: var(--dark);
 }
-
-.v-toolbar {
-	background: rgb(37 38 43 / 72%) !important;
+.v-label {
+	font-size: 12px !important;
 }
 </style>
