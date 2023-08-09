@@ -3,6 +3,8 @@ useHead({
 	title: 'POS System',
 	meta: [{ name: 'description', content: 'Point of Sale System with Nuxt, Graphl and Vuetify.' }],
 })
+const drawer = ref<boolean>(true)
+provide('drawer', drawer)
 </script>
 <template>
 	<v-layout>
@@ -24,7 +26,7 @@ useHead({
 				</NuxtLink>
 			</nav>
 			<!-- account -->
-			<h3>Account</h3>
+			<v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer" />
 		</v-app-bar>
 
 		<SideBar />

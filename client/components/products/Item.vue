@@ -8,7 +8,7 @@ const prop = defineProps<{
 }>()
 </script>
 <template>
-	<v-col :class="{ 'v-col-12': isListView }" style="min-width: 350px; max-height: 340px">
+	<v-col :class="{ 'v-col-12': isListView, 'ma-1': true }">
 		<v-hover v-slot="{ isHovering, props }">
 			<v-card
 				v-bind="props"
@@ -20,7 +20,7 @@ const prop = defineProps<{
 				style="cursor: pointer; background-color: #ffff"
 			>
 				<v-col :cols="!isListView ? 4 : 'auto'">
-					<ProductsImg v-if="!isListView" :img="prop.ship.image" style="max-width: 300px" />
+					<ProductsImg v-if="!isListView" :img="prop.ship.image" style="width: 120px" />
 					<h5
 						class="text-h4 mt-2 text-uppercase prevent-select d-flex align-start font-weight-medium"
 					>

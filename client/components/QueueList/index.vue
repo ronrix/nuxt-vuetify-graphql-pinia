@@ -4,9 +4,13 @@ import { Cart } from '@/types/'
 const prop = defineProps<{
 	cart: Cart
 }>()
+const showProductOptions = ref<boolean>(false)
 </script>
 <template>
-	<div class="d-flex align-center mb-1 queue-list rounded rounded-xl mb-1">
+	<div
+		class="d-flex align-center mb-1 queue-list rounded rounded-xl mb-1"
+		@click="showProductOptions = true"
+	>
 		<v-col cols="3" style="position: relative">
 			<ProductsImg :img="prop.cart.image" />
 		</v-col>
@@ -20,6 +24,8 @@ const prop = defineProps<{
 		</v-col>
 	</div>
 	<v-divider style="background: var(--line)" />
+	<!-- product options -->
+	<ProductOptions v-model="showProductOptions" :show-product-options="showProductOptions" />
 </template>
 <style scoped>
 .queue-list {

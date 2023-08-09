@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import numeral from 'numeral'
 
+const drawer = inject('drawer')
 const contentToScroll = ref<HTMLElement | null>(null)
 const cartStore = useCart()
+const show = ref<boolean>(false)
+const customerName = ref<string>('')
+const tableName = ref<string>('')
 
 // this keeps the auto-scroll to bottom on reload
 onMounted(() => {
@@ -23,7 +27,7 @@ watch([cartStore], () => {
 	setTimeout(() => {
 		contentToScroll.value?.$el?.scrollTo({
 			left: 0,
-			top: contentToScroll.value.$el.scrollHeight + contentToScroll.value.$el.scrollHeight,
+			top: contentToScroll.value.$el.scrollHeight,
 			behavior: 'smooth',
 		})
 	}, 0)
@@ -31,26 +35,28 @@ watch([cartStore], () => {
 </script>
 <template>
 	<v-navigation-drawer
-		permanent
+		v-model="drawer"
 		location="right"
 		:width="500"
 		style="border-left: 2px solid var(--line)"
-		class="px-2"
+		class="px-4 overflow-y-hidden"
 	>
 		<v-list>
-			<v-list-item color="#93939C">
-				<h3 class="font-weight-bold mb-2">Customer Information</h3>
+			<v-list-item color="#93939C" class="mb-2 pa-0">
+				<h3 class="font-weight-bold">Customer Information</h3>
 				<v-text-field
+					v-model="customerName"
 					label="Customer Name"
-					persistent-hint
 					variant="outlined"
+					class="mt-2"
 					style="border-radius: 20px"
 				/>
+				<SelectTable v-model="show" v-model:tableName="tableName" :show="show" />
 			</v-list-item>
 			<v-divider style="background: var(--line)" />
 		</v-list>
 		<h3 class="font-weight-bold mb-3 pa-2">Order Details</h3>
-		<v-list ref="contentToScroll" class="overflow-y-auto" style="height: 70%">
+		<v-list ref="contentToScroll" class="overflow-y-auto" height="65%">
 			<v-list-item color="#93939C">
 				<UiErrorMsg v-if="!cartStore.carts.length">
 					<v-icon icon="mdi-cart-off" class="text-h4" style="color: #f14634" />
@@ -69,8 +75,8 @@ watch([cartStore], () => {
 					style="background: var(--light-grey-2); border-bottom: 3px dashed #797979"
 				>
 					<div class="font-weight-black text-grey-darken-1 d-flex justify-space-between">
-						<h5>Sub Total</h5>
-						<h5>${{ numeral(cartStore.subTotal).format() }}</h5>
+						<h4>Sub Total</h4>
+						<h4>${{ numeral(cartStore.subTotal).format() }}</h4>
 					</div>
 				</div>
 			</section>
@@ -87,3 +93,8 @@ watch([cartStore], () => {
 		</template>
 	</v-navigation-drawer>
 </template>
+<style>
+.v-text-field .v-input__details {
+	display: none;
+}
+</style>
