@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-const table = ref<string | null>(null)
-const emit = defineEmits<{ (e: 'update:tableName', value: string): void }>()
-const tableData = [
+const emit = defineEmits<{ (e: 'update:tableName', value: string | null): void }>()
+const prop = defineProps<{ table: string | null }>()
+const tables = [
 	'Table 1',
 	'Table 2',
 	'Table 3',
@@ -16,12 +16,10 @@ const tableData = [
 ]
 
 const onClose = (isActive: Ref) => {
-	table.value = null
+	emit('update:tableName', null)
 	isActive.value = false
 }
-
 const onSave = (isActive: Ref) => {
-	emit('update:tableName', table.value as string)
 	isActive.value = false
 }
 </script>
@@ -36,7 +34,9 @@ const onSave = (isActive: Ref) => {
 					style="color: #93939c"
 					v-bind="props"
 				>
-					{{ table || 'Select Table' }}
+					<span :style="{ color: prop.table ? '#222' : '#93939c' }">
+						{{ prop.table || 'Select Table' }}
+					</span>
 					<template #append>
 						<v-icon icon="mdi-chevron-right" size="large" />
 					</template>
@@ -59,18 +59,18 @@ const onSave = (isActive: Ref) => {
 							<h6 class="ma-0 pa-0 font-weight-thin">Select customer table</h6>
 						</v-toolbar-title>
 						<v-spacer />
-						<v-btn size="sm" rounded="lg" class="border pa-1" @click="isActive.value = false">
-							<v-icon icon="mdi-close" />
-						</v-btn>
 					</v-toolbar>
 					<v-divider />
-					<v-card-title>Select Country</v-card-title>
 					<v-divider />
 					<v-card class="overflow-auto border" height="300">
 						<v-card-text style="height: 300px">
-							<v-radio-group v-model="table" column>
+							<v-radio-group
+								:value="prop.table"
+								column
+								@change="(e: Event) => emit('update:tableName', e.target?.value)"
+							>
 								<v-hover
-									v-for="(value, id) in tableData"
+									v-for="(value, id) in tables"
 									:key="id"
 									v-slot="{ isHovering, props }"
 								>
@@ -83,12 +83,11 @@ const onSave = (isActive: Ref) => {
 										:style="{
 											border: isHovering
 												? '1px solid var(--primary)'
-												: table === value
+												: prop.table === value
 												? '1px solid var(--primary)'
 												: '1px solid grey',
 											cursor: 'pointer',
 										}"
-										@click="table = value"
 									>
 										<v-radio :label="value" :value="value" color="info" />
 									</v-card>
@@ -97,7 +96,7 @@ const onSave = (isActive: Ref) => {
 						</v-card-text>
 					</v-card>
 					<v-card-actions>
-						<v-btn color="blue-darken-1" variant="text" @click="onClose(isActive)">Close</v-btn>
+						<v-btn color="blue-darken-1" variant="text" @click="onClose(isActive)">Cancel</v-btn>
 						<v-btn color="blue-darken-1" variant="text" @click="onSave(isActive)">Save</v-btn>
 					</v-card-actions>
 				</v-card>

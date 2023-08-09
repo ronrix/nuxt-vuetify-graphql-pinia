@@ -6,7 +6,7 @@ const contentToScroll = ref<HTMLElement | null>(null)
 const cartStore = useCart()
 const show = ref<boolean>(false)
 const customerName = ref<string>('')
-const tableName = ref<string>('')
+const table = ref<string | null>(null)
 
 // this keeps the auto-scroll to bottom on reload
 onMounted(() => {
@@ -51,7 +51,7 @@ watch([cartStore], () => {
 					class="mt-2"
 					style="border-radius: 20px"
 				/>
-				<SelectTable v-model="show" v-model:tableName="tableName" :show="show" />
+				<SelectTable v-model="show" v-model:tableName="table" :table="table" :show="show" />
 			</v-list-item>
 			<v-divider style="background: var(--line)" />
 		</v-list>
