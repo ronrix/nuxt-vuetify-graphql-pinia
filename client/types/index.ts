@@ -1,3 +1,9 @@
+export interface ProductCustomization {
+	color: string
+	description: string
+	size: string
+}
+
 export interface Cart {
 	id: string
 	name: string
@@ -5,6 +11,7 @@ export interface Cart {
 	image: string
 	qty: number
 	price: number
+	customization: ProductCustomization
 }
 
 export interface IShip {
@@ -13,4 +20,5 @@ export interface IShip {
 	type: string
 	image: string
 	price: number
+	customization: ProductCustomization
 }

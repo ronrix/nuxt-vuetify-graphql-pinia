@@ -8,6 +8,13 @@ const show = ref<boolean>(false)
 const customerName = ref<string>('')
 const table = ref<string | null>(null)
 
+const processTransaction = () => {
+	cartStore.checkoutCart(customerName.value, table.value).then(() => {
+		customerName.value = ''
+		table.value = null
+	})
+}
+
 // this keeps the auto-scroll to bottom on reload
 onMounted(() => {
 	if (contentToScroll.value) {
@@ -86,7 +93,7 @@ watch([cartStore], () => {
 				:disabled="!cartStore.isReadyToProcess"
 				class="my-3 text-capitalize font-weight-bold pa-3 rounded rounded-lg"
 				style="background: #084eff; color: var(--light-grey)"
-				@click="cartStore.checkoutCart"
+				@click="processTransaction"
 			>
 				Process Transaction
 			</v-btn>

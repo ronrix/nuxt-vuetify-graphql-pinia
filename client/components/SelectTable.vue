@@ -25,11 +25,11 @@ const onSave = (isActive: Ref) => {
 </script>
 <template>
 	<v-col cols="auto" class="pa-0">
-		<v-dialog transition="dialog-top-transition" width="500" scrollable>
+		<v-dialog transition="dialog-top-transition" width="500" persistent scrollable>
 			<template #activator="{ props }">
 				<v-btn
 					variant="outlined"
-					class="mt-2 d-flex justify-space-between"
+					class="mt-2 d-flex justify-space-between text-capitalize"
 					block
 					style="color: #93939c"
 					v-bind="props"
@@ -96,6 +96,7 @@ const onSave = (isActive: Ref) => {
 						</v-card-text>
 					</v-card>
 					<v-card-actions>
+						<v-spacer />
 						<v-btn color="blue-darken-1" variant="text" @click="onClose(isActive)">Cancel</v-btn>
 						<v-btn color="blue-darken-1" variant="text" @click="onSave(isActive)">Save</v-btn>
 					</v-card-actions>

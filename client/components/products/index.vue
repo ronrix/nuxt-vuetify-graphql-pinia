@@ -18,6 +18,8 @@ const props = defineProps<{
 				@click="props.addToCart(ship)"
 			/>
 			<v-spacer />
+			<v-spacer />
+			<v-spacer />
 		</v-row>
 	</section>
 </template>

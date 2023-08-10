@@ -1,28 +1,34 @@
 <script lang="ts" setup>
-const items = [{ title: 'All' }, { title: 'Ship 1' }, { title: 'Ship 2' }, { title: 'Ship 3' }]
-const category = ref<string>('all')
+const props = defineProps<{ changeCategory: (categoryIdx: number) => void }>()
+
+const categories = ['Category 1', 'Category 2', 'Category 3']
+const activeCategory = ref<string>(categories[0])
+
+const onClick = (category: string, idx: number) => {
+	props.changeCategory(idx)
+	activeCategory.value = category
+}
 </script>
 <template>
-	<div class="d-flex justify-space-around px-3">
-		<v-menu>
-			<template #activator="{ props }">
-				<v-btn v-bind="props" class="text-grey-lighten-5">
-					{{ category }}
-					<v-icon icon="mdi-chevron-down ml-3" />
-				</v-btn>
-			</template>
-			<v-list class="bg-transparent text-grey-lighten-5">
-				<v-list-item
-					v-for="(item, index) in items"
-					:key="index"
-					:value="index"
-					@click="category = item.title"
-				>
-					<v-list-item-title>{{ item.title }}</v-list-item-title>
-				</v-list-item>
-			</v-list>
-		</v-menu>
-	</div>
+	<v-tabs
+		rounded
+		class="py-1 px-3 rounded rounded-xl"
+		style="background-color: var(--light-grey-2)"
+		slider-color="transparent"
+	>
+		<v-tab
+			v-for="(category, idx) in categories"
+			:key="idx"
+			rounded
+			:class="{ 'bg-white': category === activeCategory }"
+			@click="onClick(category, idx)"
+		>
+			{{ category }}
+		</v-tab>
+		<v-tab rounded>
+			<v-icon icon="mdi-dots-horizontal" />
+		</v-tab>
+	</v-tabs>
 </template>
 <style lang="scss" scoped>
 .v-list {

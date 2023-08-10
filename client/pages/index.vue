@@ -1,22 +1,10 @@
 <script setup lang="ts">
-const { ships, addToCart, isListView } = useProducts()
+const { ships, addToCart, isListView, changeCategory, loading } = useProducts()
 </script>
 <template>
 	<main>
 		<section style="border-bottom: 1px solid var(--line)">
-			<v-tabs
-				rounded
-				class="py-1 px-3 rounded rounded-xl"
-				style="background-color: var(--light-grey-2)"
-				slider-color="transparent"
-			>
-				<v-tab rounded>American Ship</v-tab>
-				<v-tab rounded>Go Ms</v-tab>
-				<v-tab rounded>Shannon</v-tab>
-				<v-tab rounded>
-					<v-icon icon="mdi-dots-horizontal" />
-				</v-tab>
-			</v-tabs>
+			<Categories :change-category="changeCategory" />
 			<div class="d-flex align-center justify-space-between mt-3">
 				<h4 style="font-size: 1.5em" class="d-flex align-center">
 					Menu
@@ -32,7 +20,19 @@ const { ships, addToCart, isListView } = useProducts()
 			</div>
 		</section>
 
-		<Products :ships="ships" :add-to-cart="addToCart" :is-list-view="isListView" />
+		<div v-if="loading" class="text-center mt-5">
+			<v-progress-circular indeterminate color="info" />
+		</div>
+		<Products
+			v-else-if="ships.length"
+			:ships="ships"
+			:add-to-cart="addToCart"
+			:is-list-view="isListView"
+		/>
+		<UiErrorMsg v-else class="mt-5" style="color: var(--dark-grey)">
+			<v-icon icon="mdi-close-circle-outline" class="text-h3" />
+			<h4 class="font-weight-thin">No products for this category</h4>
+		</UiErrorMsg>
 	</main>
 </template>
 <style scoped>

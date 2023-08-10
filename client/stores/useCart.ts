@@ -1,8 +1,22 @@
 import swal from 'sweetalert'
-import { Cart } from '@/types'
+import { Cart, ProductCustomization } from '@/types'
+
+type Transact = {
+	name: string
+	carts: Cart[]
+}
+
+type DefaultTransaction = {
+	default: Transact[]
+}
+
+type Transactions = {
+	[index: string]: Transact
+} & DefaultTransaction
 
 export const useCart = defineStore('cart', () => {
 	const carts = ref<Cart[]>([])
+	const transactions = ref<Transactions>({ default: [] })
 	const subTotal = ref<number>(0)
 
 	const discount = ref<number>(0.2)
@@ -72,10 +86,28 @@ export const useCart = defineStore('cart', () => {
 		carts.value.splice(cartExist, 1)
 	}
 
+	function addProductCustomizations(productCustomization: ProductCustomization, productId: string) {
+		const cartExist = carts.value.findIndex((cart) => cart.id === productId)
+		carts.value[cartExist].customization = productCustomization
+	}
+
 	// submit checkout
-	function checkoutCart() {
+	async function checkoutCart(customerName: string | null, table: string | null) {
 		if (subTotal.value === 0) return
-		swal({
+
+		if (!customerName && !table) {
+			transactions.value.default?.push({
+				name: customerName || 'customer#' + transactions.value.default?.length,
+				carts: carts.value,
+			})
+		} else {
+			transactions.value[`${table?.replace(/ /g, '').toLowerCase()}`] = {
+				name: customerName || 'customer#' + transactions.value.length,
+				carts: carts.value,
+			}
+		}
+
+		return await swal({
 			icon: 'success',
 			title: 'Successful Checkout',
 		}).then(() => {
@@ -86,6 +118,7 @@ export const useCart = defineStore('cart', () => {
 
 	return {
 		carts,
+		transactions,
 		addCart,
 		incrementQty,
 		decrementQty,
@@ -97,5 +130,6 @@ export const useCart = defineStore('cart', () => {
 		isReadyToProcess,
 		totalPrice,
 		inputQty,
+		addProductCustomizations,
 	}
 })

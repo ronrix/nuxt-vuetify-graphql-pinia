@@ -29,12 +29,12 @@ const prop = defineProps<{
 					</h5>
 				</v-col>
 				<v-col>
-					<v-card-title class="flex-grow-2">
-						<h5 class="font-weight-black prevent-select" style="white-space: pre-wrap">
+					<v-card-title class="flex-grow-2 prevent-select">
+						<h5 class="font-weight-black" style="white-space: pre-wrap">
 							{{ prop.ship.name }}
 						</h5>
 						<div class="d-flex align-center">
-							<v-chip class="text-caption mb-1 prevent-select" variant="outlined" color="info">
+							<v-chip class="text-caption mb-1" variant="outlined" color="info">
 								{{ prop.ship.type }}
 							</v-chip>
 						</div>
