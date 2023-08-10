@@ -4,6 +4,7 @@ import { Cart, ProductCustomization } from '@/types'
 type Transact = {
 	name: string
 	carts: Cart[]
+	[cash: number]: number
 }
 
 type DefaultTransaction = {
@@ -92,19 +93,28 @@ export const useCart = defineStore('cart', () => {
 	}
 
 	// submit checkout
+	async function directCheckout(amount: number) {
+		transactions.value.default?.push({
+			name: 'customer#' + transactions.value.default?.length,
+			carts: carts.value,
+			amount,
+		})
+
+		return await swal({
+			icon: 'success',
+			title: 'Successful Checkout',
+		}).then(() => {
+			carts.value = []
+			subTotal.value = 0
+		})
+	}
+
 	async function checkoutCart(customerName: string | null, table: string | null) {
 		if (subTotal.value === 0) return
 
-		if (!customerName && !table) {
-			transactions.value.default?.push({
-				name: customerName || 'customer#' + transactions.value.default?.length,
-				carts: carts.value,
-			})
-		} else {
-			transactions.value[`${table?.replace(/ /g, '').toLowerCase()}`] = {
-				name: customerName || 'customer#' + transactions.value.length,
-				carts: carts.value,
-			}
+		transactions.value[`${table?.replace(/ /g, '').toLowerCase()}`] = {
+			name: customerName || 'customer#' + transactions.value.length,
+			carts: carts.value,
 		}
 
 		return await swal({
@@ -127,6 +137,7 @@ export const useCart = defineStore('cart', () => {
 		discount,
 		discountPercentage,
 		checkoutCart,
+		directCheckout,
 		isReadyToProcess,
 		totalPrice,
 		inputQty,

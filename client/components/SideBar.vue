@@ -87,10 +87,12 @@ watch([cartStore], () => {
 					</div>
 				</div>
 			</section>
+
+			<CashBtns />
 			<v-btn
 				block
 				size="sm"
-				:disabled="!cartStore.isReadyToProcess"
+				:disabled="!customerName.length && !table"
 				class="my-3 text-capitalize font-weight-bold pa-3 rounded rounded-lg"
 				style="background: #084eff; color: var(--light-grey)"
 				@click="processTransaction"

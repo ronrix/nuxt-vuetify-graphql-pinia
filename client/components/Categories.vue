@@ -1,7 +1,15 @@
 <script lang="ts" setup>
 const props = defineProps<{ changeCategory: (categoryIdx: number) => void }>()
 
-const categories = ['Category 1', 'Category 2', 'Category 3']
+const categories = [
+	'Category 1',
+	'Category 2',
+	'Category 3',
+	'Category 4',
+	'Category 5',
+	'Category 6',
+	'Category 7',
+]
 const activeCategory = ref<string>(categories[0])
 
 const onClick = (category: string, idx: number) => {
@@ -24,9 +32,6 @@ const onClick = (category: string, idx: number) => {
 			@click="onClick(category, idx)"
 		>
 			{{ category }}
-		</v-tab>
-		<v-tab rounded>
-			<v-icon icon="mdi-dots-horizontal" />
 		</v-tab>
 	</v-tabs>
 </template>
