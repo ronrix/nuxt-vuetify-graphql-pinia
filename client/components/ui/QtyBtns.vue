@@ -4,10 +4,6 @@ const props = defineProps<{
 	qty: number
 	id: string
 }>()
-
-const onInput = (e: Event) => {
-	cartStore.inputQty(parseInt((e.target as HTMLInputElement).value), props.id)
-}
 </script>
 <template>
 	<div class="d-flex align-center">
@@ -16,7 +12,7 @@ const onInput = (e: Event) => {
 			class="d-flex align-items text-white"
 			style="width: 30px; height: 30px; border-radius: 50%; background-color: var(--primary)"
 			variant="tonal"
-			@click="cartStore.incrementQty(props.id)"
+			@click.stop="cartStore.incrementQty(props.id)"
 		>
 			+
 		</v-btn>
@@ -25,14 +21,14 @@ const onInput = (e: Event) => {
 			style="border: none; font-size: 12px; outline: none; width: 50px"
 			:value="props.qty"
 			class="text-center"
-			@change="onInput"
+			readonly
 		/>
 		<v-btn
 			size="sm"
 			class="d-flex align-items"
 			variant="tonal"
 			style="width: 30px; height: 30px; border-radius: 50%"
-			@click="cartStore.decrementQty(props.id)"
+			@click.stop="cartStore.decrementQty(props.id)"
 		>
 			-
 		</v-btn>

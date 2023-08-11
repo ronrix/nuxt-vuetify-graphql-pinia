@@ -7,9 +7,16 @@ const prop = defineProps<{
 const show = ref<boolean>(false)
 </script>
 <template>
-	<div class="d-flex align-center mb-1 queue-list rounded rounded-xl mb-1" @click="show = true">
+	<div
+		class="d-flex align-center mb-1 queue-list rounded rounded-xl mb-1 pa-0"
+		:style="{
+			position: 'relative',
+			cursor: 'pointer',
+		}"
+		@click="show = true"
+	>
 		<v-col cols="3" style="position: relative">
-			<ProductsImg :img="prop.cart.image" />
+			<ProductsImg :img="prop.cart.image || ''" />
 		</v-col>
 
 		<v-col class="text-h6 font-weight-black d-flex flex-column prevent-select">
@@ -32,21 +39,7 @@ const show = ref<boolean>(false)
 	/>
 </template>
 <style scoped>
-.queue-list {
-	position: relative;
-	background: transparent;
-	cursor: pointer;
-}
-
 .queue-list:hover {
-	background: var(--light-grey-1) !important;
-}
-
-.v-chip {
-	white-space: pre-wrap;
-}
-
-.v-card.on-hover {
 	background: var(--light-grey-1) !important;
 }
 </style>

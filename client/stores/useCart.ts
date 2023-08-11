@@ -4,7 +4,6 @@ import { Cart, ProductCustomization } from '@/types'
 type Transact = {
 	name: string
 	carts: Cart[]
-	[cash: number]: number
 }
 
 type DefaultTransaction = {
@@ -90,9 +89,21 @@ export const useCart = defineStore('cart', () => {
 	function addProductCustomizations(productCustomization: ProductCustomization, productId: string) {
 		const cartExist = carts.value.findIndex((cart) => cart.id === productId)
 		carts.value[cartExist].customization = productCustomization
+		if (productCustomization.fixAmount && productCustomization.discount) {
+			const oldPrice = carts.value[cartExist].price
+			const newPrice = productCustomization.fixAmount * (productCustomization.discount * 100)
+			carts.value[cartExist].price = newPrice
+
+			// deduct temp price and add the new price
+			console.log(oldPrice, newPrice)
+			subtractPrice(oldPrice)
+			addPrice(newPrice)
+		} else if (productCustomization.fixAmount) {
+			carts.value[cartExist].price = productCustomization.fixAmount
+		}
 	}
 
-	// submit checkout
+	// direct checkout
 	async function directCheckout(amount: number) {
 		transactions.value.default?.push({
 			name: 'customer#' + transactions.value.default?.length,
@@ -109,6 +120,7 @@ export const useCart = defineStore('cart', () => {
 		})
 	}
 
+	// process transaction dine in
 	async function checkoutCart(customerName: string | null, table: string | null) {
 		if (subTotal.value === 0) return
 

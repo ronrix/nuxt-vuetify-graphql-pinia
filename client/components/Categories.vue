@@ -35,8 +35,3 @@ const onClick = (category: string, idx: number) => {
 		</v-tab>
 	</v-tabs>
 </template>
-<style lang="scss" scoped>
-.v-list {
-	background: rgb(37 38 43 / 90%) !important;
-}
-</style>

@@ -47,11 +47,3 @@ const prop = defineProps<{
 		</v-hover>
 	</v-col>
 </template>
-<style scoped>
-.v-card.on-hover {
-	background: var(--light-grey) !important;
-	box-shadow: 1px 0px 8px -4px rgba(0, 0, 0, 0.7);
-	-webkit-box-shadow: 1px 0px 8px -4px rgba(0, 0, 0, 0.7);
-	-moz-box-shadow: 1px 0px 8px -4px rgba(0, 0, 0, 0.7);
-}
-</style>

@@ -2,6 +2,8 @@ export interface ProductCustomization {
 	color: string
 	description: string
 	size: string
+	fixAmount: number | null
+	discount: number | null
 }
 
 export interface Cart {

@@ -5,6 +5,8 @@ const options = ref<ProductCustomization>({
 	color: '',
 	description: '',
 	size: 'small',
+	fixAmount: null,
+	discount: null,
 })
 
 const props = defineProps<{
@@ -41,7 +43,20 @@ const saveCustomization = () => {
 							<UiQtyBtns :id="productId" :qty="productQty" class="mt-3" />
 						</v-col>
 						<v-col class="pa-0">
-							<v-col cols="12">
+							<v-col cols="12" class="d-flex">
+								<v-text-field
+									v-model="options.fixAmount"
+									label="Fix amount"
+									variant="outlined"
+								/>
+								<v-text-field
+									v-model="options.discount"
+									label="Discount (%)"
+									variant="outlined"
+									class="ml-2"
+								/>
+							</v-col>
+							<!-- <v-col cols="12">
 								<v-select
 									v-model="options.color"
 									variant="outlined"
@@ -56,7 +71,7 @@ const saveCustomization = () => {
 									:items="props.customization.sizes"
 									label="Size"
 								/>
-							</v-col>
+							</v-col> -->
 							<v-col cols="12">
 								<v-text-field
 									v-model="options.description"
@@ -74,7 +89,6 @@ const saveCustomization = () => {
 					remove
 				</v-btn>
 				<v-btn color="blue-darken-1" variant="tonal" @click="saveCustomization">Save</v-btn>
-				<v-spacer />
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
