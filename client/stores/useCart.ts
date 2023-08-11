@@ -22,7 +22,7 @@ export const useCart = defineStore('cart', () => {
 	const discount = ref<number>(0.2)
 	const discountPercentage = computed<number>(() => discount.value * 100)
 	const isReadyToProcess = computed<boolean>(() => subTotal.value > 0)
-	const totalPrice = computed<number>(() => subTotal.value * discount.value)
+	// const totalPrice = computed<number>(() => subTotal.value * discount.value)
 
 	//  actions
 	function addCart(data: Cart) {
@@ -89,17 +89,28 @@ export const useCart = defineStore('cart', () => {
 	function addProductCustomizations(productCustomization: ProductCustomization, productId: string) {
 		const cartExist = carts.value.findIndex((cart) => cart.id === productId)
 		carts.value[cartExist].customization = productCustomization
+		const oldPrice = carts.value[cartExist].price
+
 		if (productCustomization.fixAmount && productCustomization.discount) {
-			const oldPrice = carts.value[cartExist].price
-			const newPrice = productCustomization.fixAmount * (productCustomization.discount * 100)
+			const newPrice = parseInt(
+				String(productCustomization.fixAmount * (productCustomization.discount * 100)),
+			)
 			carts.value[cartExist].price = newPrice
 
 			// deduct temp price and add the new price
-			console.log(oldPrice, newPrice)
 			subtractPrice(oldPrice)
 			addPrice(newPrice)
 		} else if (productCustomization.fixAmount) {
-			carts.value[cartExist].price = productCustomization.fixAmount
+			carts.value[cartExist].price = parseInt(String(productCustomization.fixAmount))
+
+			// replace with new price
+			subtractPrice(oldPrice)
+			addPrice(parseInt(String(productCustomization.fixAmount)))
+		}
+
+		// add description
+		if (productCustomization.description) {
+			carts.value[cartExist].customization.description = productCustomization.description
 		}
 	}
 
@@ -151,7 +162,7 @@ export const useCart = defineStore('cart', () => {
 		checkoutCart,
 		directCheckout,
 		isReadyToProcess,
-		totalPrice,
+		// totalPrice,
 		inputQty,
 		addProductCustomizations,
 	}

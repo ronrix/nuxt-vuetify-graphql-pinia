@@ -22,6 +22,12 @@ const onClose = (isActive: Ref) => {
 const onSave = (isActive: Ref) => {
 	isActive.value = false
 }
+
+const onTableSelect = (e: Event) => {
+	if (e.target instanceof HTMLInputElement) {
+		emit('update:tableName', e.target.value)
+	}
+}
 </script>
 <template>
 	<v-col cols="auto" class="pa-0">
@@ -64,11 +70,7 @@ const onSave = (isActive: Ref) => {
 					<v-divider />
 					<v-card class="overflow-auto border" height="300">
 						<v-card-text style="height: 300px">
-							<v-radio-group
-								:value="prop.table"
-								column
-								@change="(e: Event) => emit('update:tableName', e.target?.value)"
-							>
+							<v-radio-group :value="prop.table" column @change="onTableSelect">
 								<v-hover
 									v-for="(value, id) in tables"
 									:key="id"

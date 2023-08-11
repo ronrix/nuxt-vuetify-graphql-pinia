@@ -12,6 +12,7 @@ const props = defineProps<{
 			class="d-flex align-items text-white"
 			style="width: 30px; height: 30px; border-radius: 50%; background-color: var(--primary)"
 			variant="tonal"
+			tabindex="-1"
 			@click.stop="cartStore.incrementQty(props.id)"
 		>
 			+
@@ -21,6 +22,7 @@ const props = defineProps<{
 			style="border: none; font-size: 12px; outline: none; width: 50px"
 			:value="props.qty"
 			class="text-center"
+			tabindex="-1"
 			readonly
 		/>
 		<v-btn
@@ -28,6 +30,7 @@ const props = defineProps<{
 			class="d-flex align-items"
 			variant="tonal"
 			style="width: 30px; height: 30px; border-radius: 50%"
+			tabindex="-1"
 			@click.stop="cartStore.decrementQty(props.id)"
 		>
 			-

@@ -14,6 +14,10 @@ export const useProducts = () => {
 		}
 	`
 
+	/*
+		`useQuery` throws `hydration mismatch` warning
+		reason of using `useQuery` because of refetch method
+	*/
 	const {
 		result: data,
 		loading,
@@ -27,6 +31,7 @@ export const useProducts = () => {
 					...ship,
 					price: 5000,
 					customization: {
+						// product options
 						colors: ['black', 'white'],
 						sizes: ['x-small', 'small', 'medium', 'large', 'x-large'],
 					},

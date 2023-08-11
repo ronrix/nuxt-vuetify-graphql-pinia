@@ -34,7 +34,7 @@ const show = ref<boolean>(false)
 		:show="show"
 		:product-qty="cart.qty"
 		:customization="cart.customization"
-		:product-img="cart.image"
+		:product-img="cart.image || ''"
 		:product-id="cart.id"
 	/>
 </template>

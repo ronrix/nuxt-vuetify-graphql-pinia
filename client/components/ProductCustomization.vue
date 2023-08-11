@@ -2,11 +2,7 @@
 import { ProductCustomization } from '@/types/index'
 const cartStore = useCart()
 const options = ref<ProductCustomization>({
-	color: '',
 	description: '',
-	size: 'small',
-	fixAmount: null,
-	discount: null,
 })
 
 const props = defineProps<{
@@ -27,7 +23,14 @@ const saveCustomization = () => {
 }
 </script>
 <template>
-	<v-dialog v-model="props.show" persistent width="500">
+	<v-dialog
+		:model-value="props.show"
+		persistent
+		width="500"
+		@change=" (e: Event) => 
+		emit('update:modelValue', e.target?.value)
+"
+	>
 		<v-card>
 			<v-card-title class="d-flex align-center">
 				<span class="text-h5">Product Customization</span>
@@ -36,7 +39,7 @@ const saveCustomization = () => {
 			</v-card-title>
 			<v-divider />
 			<v-card-text>
-				<v-container class="d-flex">
+				<v-form>
 					<v-row>
 						<v-col cols="3" class="ma-2 pa-0">
 							<ProductsImg :img="productImg" />
@@ -46,6 +49,7 @@ const saveCustomization = () => {
 							<v-col cols="12" class="d-flex">
 								<v-text-field
 									v-model="options.fixAmount"
+									focused
 									label="Fix amount"
 									variant="outlined"
 								/>
@@ -56,22 +60,6 @@ const saveCustomization = () => {
 									class="ml-2"
 								/>
 							</v-col>
-							<!-- <v-col cols="12">
-								<v-select
-									v-model="options.color"
-									variant="outlined"
-									:items="props.customization.colors"
-									label="Size"
-								/>
-							</v-col>
-							<v-col>
-								<v-select
-									v-model="options.size"
-									variant="outlined"
-									:items="props.customization.sizes"
-									label="Size"
-								/>
-							</v-col> -->
 							<v-col cols="12">
 								<v-text-field
 									v-model="options.description"
@@ -79,16 +67,43 @@ const saveCustomization = () => {
 									variant="outlined"
 								/>
 							</v-col>
+							<v-col v-for="(option, key) in props.customization" :key="key" cols="12">
+								<!-- if option is array render a select-field -->
+								<v-select
+									v-if="Array.isArray(option)"
+									v-model="options[key]"
+									:items="option"
+									label="Select"
+									persistent-hint
+									return-object
+									single-line
+								/>
+								<!-- if option is not an array render a text-field -->
+								<v-text-field
+									v-if="!Array.isArray(option)"
+									v-model="options[option]"
+									:label="option"
+									variant="outlined"
+								/>
+							</v-col>
 						</v-col>
 					</v-row>
-				</v-container>
+				</v-form>
 			</v-card-text>
 			<v-card-actions>
 				<v-spacer />
 				<v-btn color="red" variant="tonal" @click="cartStore.removeProduct(props.productId)">
 					remove
 				</v-btn>
-				<v-btn color="blue-darken-1" variant="tonal" @click="saveCustomization">Save</v-btn>
+				<v-btn
+					type="submit"
+					color="blue-darken-1"
+					variant="tonal"
+					text="Submit"
+					@click="saveCustomization"
+				>
+					save
+				</v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
