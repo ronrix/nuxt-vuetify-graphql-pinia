@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import numeral from 'numeral'
-import { IShip } from '@/types/'
+import { Order } from '@/types/'
 
 const prop = defineProps<{
-	ship: IShip
+	ship: Order
 	isListView: boolean
 }>()
 </script>

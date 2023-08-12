@@ -1,4 +1,4 @@
-import { IShip } from '@/types/'
+import { Order } from '@/types/'
 
 export const useProducts = () => {
 	const isListView = ref<boolean>(false)
@@ -22,7 +22,7 @@ export const useProducts = () => {
 		loading,
 		error,
 		refetch,
-	} = useQuery<{ ships: IShip[] }>(
+	} = useQuery<{ ships: Order[] }>(
 		shipsQuery,
 		() => ({ limit: 15, offest: 0 }),
 		() => ({

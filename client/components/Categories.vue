@@ -1,15 +1,7 @@
 <script lang="ts" setup>
 const props = defineProps<{ changeCategory: (categoryIdx: number) => void }>()
 
-const categories = [
-	'Category 1',
-	'Category 2',
-	'Category 3',
-	'Category 4',
-	'Category 5',
-	'Category 6',
-	'Category 7',
-]
+const { categories } = useCategories()
 const activeCategory = ref<string>(categories[0])
 
 const onClick = (category: string, idx: number) => {
