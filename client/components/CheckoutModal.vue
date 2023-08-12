@@ -28,7 +28,7 @@ const proceed = () => {
 			:model-value="props.cashModal"
 			scrollable
 			width="auto"
-			@change="(e: Event) => emit('update:cashModalEmit', e.target?.value)"
+			@change="(e: Event) => emit('update:cashModalEmit', (e.target as any).value)"
 		>
 			<v-card>
 				<v-card-title class="d-flex align-start">

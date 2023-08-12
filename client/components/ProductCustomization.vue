@@ -28,7 +28,7 @@ const saveCustomization = () => {
 		persistent
 		width="500"
 		@change=" (e: Event) => 
-		emit('update:modelValue', e.target?.value)
+		emit('update:modelValue', (e.target as any).value)
 "
 	>
 		<v-card>
