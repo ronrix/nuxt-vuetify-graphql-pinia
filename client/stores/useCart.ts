@@ -14,7 +14,7 @@ type Transactions = {
 	[index: string]: Transact
 } & DefaultTransaction
 
-export const useCart = defineStore('cart', () => {
+export const useCart = defineStore('carts', () => {
 	const carts = ref<Cart[]>([])
 	const transactions = ref<Transactions>({ default: [] })
 	const subTotal = ref<number>(0)
@@ -22,19 +22,18 @@ export const useCart = defineStore('cart', () => {
 	const discount = ref<number>(0.2)
 	const discountPercentage = computed<number>(() => discount.value * 100)
 	const isReadyToProcess = computed<boolean>(() => subTotal.value > 0)
-	// const totalPrice = computed<number>(() => subTotal.value * discount.value)
 
 	//  actions
-	function addCart(data: Cart) {
+	function addOrder(order: Cart) {
 		// if product already exists in the cart, increment the quantity
-		const cartExist = carts.value.findIndex((cart) => cart.id === data.id)
+		const cartExist = carts.value.findIndex((o) => o.id === order.id)
 		if (cartExist >= 0) {
 			// increment the qty of the product
 			carts.value[cartExist].qty += 1
 		} else {
-			carts.value.push(data)
+			carts.value.push({ ...order, qty: 1 })
 		}
-		addPrice(data.price)
+		addPrice(order.price)
 	}
 
 	function addPrice(price: number) {
@@ -52,6 +51,10 @@ export const useCart = defineStore('cart', () => {
 
 	function decrementQty(id: string) {
 		const cartExist = carts.value.findIndex((cart) => cart.id === id)
+
+		// don't decrement if qty = 1
+		if (carts.value[cartExist].qty === 1) return
+
 		carts.value[cartExist].qty -= 1
 		subtractPrice(carts.value[cartExist].price)
 
@@ -152,17 +155,16 @@ export const useCart = defineStore('cart', () => {
 	return {
 		carts,
 		transactions,
-		addCart,
-		incrementQty,
-		decrementQty,
-		removeProduct,
 		subTotal,
 		discount,
 		discountPercentage,
+		isReadyToProcess,
+		addOrder,
+		incrementQty,
+		decrementQty,
+		removeProduct,
 		checkoutCart,
 		directCheckout,
-		isReadyToProcess,
-		// totalPrice,
 		inputQty,
 		addProductCustomizations,
 	}

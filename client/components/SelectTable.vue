@@ -1,32 +1,14 @@
 <script lang="ts" setup>
-const emit = defineEmits<{ (e: 'update:tableName', value: string | null): void }>()
-const prop = defineProps<{ table: string | null }>()
-const tables = [
-	'Table 1',
-	'Table 2',
-	'Table 3',
-	'Table 4',
-	'Table 5',
-	'Table 6',
-	'Table 7',
-	'Table 8',
-	'Table 9',
-	'Table 10',
-	'Table 11',
-]
+const { tables } = useTables()
+const table = inject('table')
 
 const onClose = (isActive: Ref) => {
-	emit('update:tableName', null)
 	isActive.value = false
+	// remove the table
+	table.value = ''
 }
 const onSave = (isActive: Ref) => {
 	isActive.value = false
-}
-
-const onTableSelect = (e: Event) => {
-	if (e.target instanceof HTMLInputElement) {
-		emit('update:tableName', e.target.value)
-	}
 }
 </script>
 <template>
@@ -40,8 +22,8 @@ const onTableSelect = (e: Event) => {
 					style="color: #93939c"
 					v-bind="props"
 				>
-					<span :style="{ color: prop.table ? '#222' : '#93939c' }">
-						{{ prop.table || 'Select Table' }}
+					<span :style="{ color: table ? '#222' : '#93939c' }">
+						{{ table || 'Select Table' }}
 					</span>
 					<template #append>
 						<v-icon icon="mdi-chevron-right" size="large" />
@@ -70,7 +52,7 @@ const onTableSelect = (e: Event) => {
 					<v-divider />
 					<v-card class="overflow-auto border" height="300">
 						<v-card-text style="height: 300px">
-							<v-radio-group :value="prop.table" column @change="onTableSelect">
+							<v-radio-group v-model="table" column>
 								<v-hover
 									v-for="(value, id) in tables"
 									:key="id"
@@ -85,7 +67,7 @@ const onTableSelect = (e: Event) => {
 										:style="{
 											border: isHovering
 												? '1px solid var(--primary)'
-												: prop.table === value
+												: table === value
 												? '1px solid var(--primary)'
 												: '1px solid grey',
 											cursor: 'pointer',

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { IShip } from '~~/client/types'
+import { Order } from '~~/client/types'
 
+const { addOrder } = useCart()
 const props = defineProps<{
-	ships: Array<IShip>
+	ships: Array<Order>
 	isListView: Boolean
-	addToCart: (ship: IShip) => void
 }>()
 </script>
 <template>
@@ -15,7 +15,7 @@ const props = defineProps<{
 				:key="ship.id"
 				:ship="ship"
 				:is-list-view="isListView"
-				@click="props.addToCart(ship)"
+				@click="addOrder(ship)"
 			/>
 			<v-spacer />
 			<v-spacer />

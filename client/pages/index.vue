@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { ships, addToCart, isListView, changeCategory, loading } = useProducts()
+const { ships, isListView, changeCategory, loading } = useProducts()
 </script>
 <template>
 	<main>
@@ -23,33 +23,10 @@ const { ships, addToCart, isListView, changeCategory, loading } = useProducts()
 		<div v-if="loading" class="text-center mt-5">
 			<v-progress-circular indeterminate color="info" />
 		</div>
-		<Products
-			v-else-if="ships.length"
-			:ships="ships"
-			:add-to-cart="addToCart"
-			:is-list-view="isListView"
-		/>
+		<Products v-else-if="ships.length" :ships="ships" :is-list-view="isListView" />
 		<UiErrorMsg v-else class="mt-5" style="color: var(--dark-grey)">
 			<v-icon icon="mdi-close-circle-outline" class="text-h3" />
 			<h4 class="font-weight-thin">No products for this category</h4>
 		</UiErrorMsg>
 	</main>
 </template>
-<style scoped>
-.v-tabs {
-	height: auto;
-}
-.v-tab {
-	text-transform: capitalize;
-	font-weight: 600;
-	font-family: 'Poppins', sans-serif;
-	color: var(--dark-grey);
-}
-.v-tab--selected {
-	background: #ffff;
-	color: var(--dark);
-}
-.v-label {
-	font-size: 12px !important;
-}
-</style>
