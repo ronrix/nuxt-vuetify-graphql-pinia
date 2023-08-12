@@ -5,20 +5,29 @@ const cartStore = useCart()
 const emit = defineEmits(['update:cashModalEmit', 'update:selectedAmountEmit'])
 const props = defineProps<{ cashModal: boolean; selectedAmount: number | null }>()
 const amount = ref<number | null>(null)
+const error = ref<string>('')
 
-const proceed = () => {
+const proceed = async () => {
 	// selected amount
 	if (props.selectedAmount) {
-		cartStore.directCheckout(props.selectedAmount).then(() => {
+		try {
+			await cartStore.directCheckout(props.selectedAmount)
 			emit('update:cashModalEmit', false)
-		})
+			error.value = ''
+		} catch (e) {
+			error.value = (e as Error).message
+		}
 		return
 	}
 	// custom amount value
 	if (amount.value) {
-		cartStore.directCheckout(parseInt(String(amount.value))).then(() => {
+		try {
+			await cartStore.directCheckout(parseInt(String(amount.value)))
 			emit('update:cashModalEmit', false)
-		})
+			error.value = ''
+		} catch (e) {
+			error.value = (e as Error).message
+		}
 	}
 }
 </script>
@@ -37,9 +46,7 @@ const proceed = () => {
 						<p class="text-body-2">Orders</p>
 					</div>
 					<v-spacer />
-					<v-btn class="pa-0" variant="text" @click="emit('update:cashModalEmit', false)">
-						<v-icon icon="mdi-close" />
-					</v-btn>
+					<v-icon icon="mdi-close" class="ml-5" @click="emit('update:cashModalEmit', false)" />
 				</v-card-title>
 				<v-divider />
 				<v-card-text style="height: 300px" class="pa-0">
@@ -55,6 +62,7 @@ const proceed = () => {
 				</v-card-text>
 				<v-divider />
 				<v-card-text class="font-weight-bold pa-2">
+					<p v-if="error.length" class="px-2 text-red-darken-4 bg-red-lighten-4">{{ error }}</p>
 					<h4 class="d-flex align-center justify-space-between">
 						<span>Total:</span>
 						<span>{{ numeral(cartStore.subTotal).format('0.0a') }}</span>
@@ -80,7 +88,15 @@ const proceed = () => {
 				</v-card-text>
 				<v-divider />
 				<v-card-actions>
-					<v-btn color="info" variant="outlined" block @click="proceed">Proceed</v-btn>
+					<v-btn
+						:disabled="props.selectedAmount && props.selectedAmount < cartStore.subTotal"
+						color="info"
+						variant="outlined"
+						block
+						@click="proceed"
+					>
+						Proceed
+					</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>

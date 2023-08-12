@@ -4,7 +4,7 @@ const cartStore = useCart()
 const selectedAmount = ref<number | null>(null)
 const cashModal = ref<boolean>(false)
 
-const selectCashModal = (amount: number) => {
+const selectCashModal = (amount: number | null) => {
 	cashModal.value = true
 	selectedAmount.value = amount
 }
@@ -35,7 +35,7 @@ const selectCashModal = (amount: number) => {
 					color="yellow-darken-1"
 					class="ma-0 pa-0"
 					:disabled="!cartStore.carts.length"
-					@click="cashModal = true"
+					@click="selectCashModal(null)"
 				>
 					custom
 				</v-btn>

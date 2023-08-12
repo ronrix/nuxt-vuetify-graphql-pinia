@@ -4,6 +4,8 @@ import { Order, ProductCustomization } from '@/types'
 type Transact = {
 	name: string
 	carts: Order[]
+	total: number
+	amount?: number
 }
 
 type DefaultTransaction = {
@@ -129,10 +131,13 @@ export const useCart = defineStore('carts', () => {
 
 	// direct checkout
 	async function directCheckout(amount: number) {
+		if (amount < subTotal.value)
+			throw new Error('Invalid amount (input an amount that is greater than the sub total)')
 		transactions.value.default?.push({
 			name: 'customer#' + transactions.value.default?.length,
 			carts: carts.value,
 			amount,
+			total: subTotal.value,
 		})
 
 		return await swal({
@@ -151,6 +156,7 @@ export const useCart = defineStore('carts', () => {
 		transactions.value[`${table.value.replace(/ /g, '').toLowerCase()}`] = {
 			name: customerName.value || 'customer#' + transactions.value.length,
 			carts: carts.value,
+			total: subTotal.value,
 		}
 
 		return await swal({

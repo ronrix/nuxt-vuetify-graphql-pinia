@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import numeral from 'numeral'
-const { subTotal } = useCart()
+const cartStore = useCart()
 </script>
 <template>
 	<section class="py-3">
@@ -11,7 +11,7 @@ const { subTotal } = useCart()
 		>
 			<div class="font-weight-black text-grey-darken-1 d-flex justify-space-between">
 				<h4>Sub Total</h4>
-				<h4>${{ numeral(subTotal).format() }}</h4>
+				<h4>${{ numeral(cartStore.subTotal).format() }}</h4>
 			</div>
 		</div>
 	</section>
