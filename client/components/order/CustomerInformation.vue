@@ -1,12 +1,12 @@
 <script setup lang="ts">
-const customerName = inject('customerName')
+const cartStore = useCart()
 </script>
 <template>
 	<v-list>
 		<v-list-item color="#93939C" class="mb-2 pa-0">
 			<h3 class="font-weight-bold">Customer Information</h3>
 			<v-text-field
-				v-model="customerName"
+				v-model="cartStore.customerName"
 				label="Customer Name"
 				variant="outlined"
 				class="mt-2"

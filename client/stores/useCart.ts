@@ -1,9 +1,9 @@
 import swal from 'sweetalert'
-import { Cart, ProductCustomization } from '@/types'
+import { Order, ProductCustomization } from '@/types'
 
 type Transact = {
 	name: string
-	carts: Cart[]
+	carts: Order[]
 }
 
 type DefaultTransaction = {
@@ -15,7 +15,7 @@ type Transactions = {
 } & DefaultTransaction
 
 export const useCart = defineStore('carts', () => {
-	const carts = ref<Cart[]>([])
+	const carts = ref<Order[]>([])
 	const transactions = ref<Transactions>({ default: [] })
 	const subTotal = ref<number>(0)
 
@@ -23,8 +23,18 @@ export const useCart = defineStore('carts', () => {
 	const discountPercentage = computed<number>(() => discount.value * 100)
 	const isReadyToProcess = computed<boolean>(() => subTotal.value > 0)
 
+	const customerName = ref<string>('')
+	const table = ref<string>('')
+	const canProcess = computed<boolean>(
+		() => !!customerName.value.length && !!table.value.length && !!carts.value.length,
+	)
+
 	//  actions
-	function addOrder(order: Cart) {
+	function removeTable() {
+		table.value = ''
+	}
+
+	function addOrder(order: Order) {
 		// if product already exists in the cart, increment the quantity
 		const cartExist = carts.value.findIndex((o) => o.id === order.id)
 		if (cartExist >= 0) {
@@ -135,11 +145,11 @@ export const useCart = defineStore('carts', () => {
 	}
 
 	// process transaction dine in
-	async function checkoutCart(customerName: string | null, table: string | null) {
+	async function checkoutCart() {
 		if (subTotal.value === 0) return
 
-		transactions.value[`${table?.replace(/ /g, '').toLowerCase()}`] = {
-			name: customerName || 'customer#' + transactions.value.length,
+		transactions.value[`${table.value.replace(/ /g, '').toLowerCase()}`] = {
+			name: customerName.value || 'customer#' + transactions.value.length,
 			carts: carts.value,
 		}
 
@@ -149,6 +159,8 @@ export const useCart = defineStore('carts', () => {
 		}).then(() => {
 			carts.value = []
 			subTotal.value = 0
+			customerName.value = ''
+			table.value = ''
 		})
 	}
 
@@ -159,6 +171,10 @@ export const useCart = defineStore('carts', () => {
 		discount,
 		discountPercentage,
 		isReadyToProcess,
+		canProcess,
+		customerName,
+		table,
+		removeTable,
 		addOrder,
 		incrementQty,
 		decrementQty,

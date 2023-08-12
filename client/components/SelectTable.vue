@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 const { tables } = useTables()
-const table = inject('table')
+const cartStore = useCart()
 
 const onClose = (isActive: Ref) => {
 	isActive.value = false
 	// remove the table
-	table.value = ''
+	cartStore.removeTable()
 }
 const onSave = (isActive: Ref) => {
 	isActive.value = false
@@ -22,8 +22,8 @@ const onSave = (isActive: Ref) => {
 					style="color: #93939c"
 					v-bind="props"
 				>
-					<span :style="{ color: table ? '#222' : '#93939c' }">
-						{{ table || 'Select Table' }}
+					<span :style="{ color: cartStore.table ? '#222' : '#93939c' }">
+						{{ cartStore.table || 'Select Table' }}
 					</span>
 					<template #append>
 						<v-icon icon="mdi-chevron-right" size="large" />
@@ -52,7 +52,7 @@ const onSave = (isActive: Ref) => {
 					<v-divider />
 					<v-card class="overflow-auto border" height="300">
 						<v-card-text style="height: 300px">
-							<v-radio-group v-model="table" column>
+							<v-radio-group v-model="cartStore.table" column>
 								<v-hover
 									v-for="(value, id) in tables"
 									:key="id"
@@ -67,7 +67,7 @@ const onSave = (isActive: Ref) => {
 										:style="{
 											border: isHovering
 												? '1px solid var(--primary)'
-												: table === value
+												: cartStore.table === value
 												? '1px solid var(--primary)'
 												: '1px solid grey',
 											cursor: 'pointer',

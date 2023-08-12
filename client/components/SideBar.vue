@@ -2,18 +2,6 @@
 const drawer = inject('drawer')
 const contentToScroll = ref<HTMLDivElement | null>(null)
 const cartStore = useCart()
-const customerName = ref<string>('')
-const table = ref<string>('')
-const canProcess = computed<boolean>(
-	() => !!customerName.value.length && !!table.value.length && !!cartStore.carts.length,
-)
-
-const processTransaction = () => {
-	cartStore.checkoutCart(customerName.value, table.value).then(() => {
-		customerName.value = ''
-		table.value = ''
-	})
-}
 
 // this keeps the auto-scroll to bottom on reload
 onMounted(() => {
@@ -39,9 +27,6 @@ watch([cartStore], () => {
 		})
 	}, 0)
 })
-
-provide('table', table)
-provide('customerName', customerName)
 </script>
 <template>
 	<v-navigation-drawer
@@ -72,10 +57,10 @@ provide('customerName', customerName)
 			<v-btn
 				block
 				size="sm"
-				:disabled="!canProcess"
+				:disabled="!cartStore.canProcess"
 				class="my-3 text-capitalize font-weight-bold pa-3 rounded rounded-lg"
 				style="background: #084eff; color: var(--light-grey)"
-				@click="processTransaction"
+				@click="cartStore.checkoutCart"
 			>
 				Process Transaction
 			</v-btn>
