@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ProductCustomization } from '@/types/index'
+import { ProductOptions } from '@/types/index'
 const cartStore = useCart()
-const options = ref<ProductCustomization>({
+const options = ref<ProductOptions>({
 	description: '',
 })
 

@@ -41,11 +41,11 @@ watch([cartStore], () => {
 		<h3 class="font-weight-bold mb-3 pa-2">Order Details</h3>
 		<v-list ref="contentToScroll" class="overflow-y-auto" height="65%">
 			<v-list-item color="#93939C">
-				<UiErrorMsg v-if="!cartStore.carts.length">
+				<UiErrorMsg v-if="!cartStore.orders.length">
 					<v-icon icon="mdi-cart-off" class="text-h4" style="color: #f14634" />
 					<span class="text-grey-darken-1">No orders selected</span>
 				</UiErrorMsg>
-				<OrderList v-for="order in cartStore.carts" v-else :key="order.id" :order="order" />
+				<OrderList v-for="order in cartStore.orders" v-else :key="order.id" :order="order" />
 			</v-list-item>
 		</v-list>
 
@@ -67,8 +67,3 @@ watch([cartStore], () => {
 		</template>
 	</v-navigation-drawer>
 </template>
-<style>
-.v-text-field .v-input__details {
-	display: none;
-}
-</style>

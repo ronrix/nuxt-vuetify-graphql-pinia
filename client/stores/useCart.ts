@@ -1,11 +1,11 @@
 import swal from 'sweetalert'
-import { Order, ProductCustomization } from '@/types'
+import { Order, ProductOptions } from '@/types'
 
 type Transact = {
-	name: string
-	carts: Order[]
-	total: number
-	amount?: number
+	customerName: string
+	orders: Order[]
+	totalPrice: number
+	cashAmount?: number
 }
 
 type DefaultTransaction = {
@@ -17,8 +17,8 @@ type Transactions = {
 } & DefaultTransaction
 
 export const useCart = defineStore('carts', () => {
-	const carts = ref<Order[]>([])
-	const transactions = ref<Transactions>({ default: [] })
+	const orders = ref<Order[]>([])
+	const carts = ref<Transactions>({ default: [] })
 	const subTotal = ref<number>(0)
 
 	const discount = ref<number>(0.2)
@@ -28,7 +28,7 @@ export const useCart = defineStore('carts', () => {
 	const customerName = ref<string>('')
 	const table = ref<string>('')
 	const canProcess = computed<boolean>(
-		() => !!customerName.value.length && !!table.value.length && !!carts.value.length,
+		() => !!customerName.value.length && !!table.value.length && !!orders.value.length,
 	)
 
 	//  actions
@@ -38,12 +38,12 @@ export const useCart = defineStore('carts', () => {
 
 	function addOrder(order: Order) {
 		// if product already exists in the cart, increment the quantity
-		const cartExist = carts.value.findIndex((o) => o.id === order.id)
-		if (cartExist >= 0) {
+		const orderExist = orders.value.findIndex((o) => o.id === order.id)
+		if (orderExist >= 0) {
 			// increment the qty of the product
-			carts.value[cartExist].qty += 1
+			orders.value[orderExist].qty += 1
 		} else {
-			carts.value.push({ ...order, qty: 1 })
+			orders.value.push({ ...order, qty: 1 })
 		}
 		addPrice(order.price)
 	}
@@ -56,23 +56,23 @@ export const useCart = defineStore('carts', () => {
 	}
 
 	function incrementQty(id: string) {
-		const cartExist = carts.value.findIndex((cart) => cart.id === id)
-		carts.value[cartExist].qty += 1
-		addPrice(carts.value[cartExist].price)
+		const orderExist = orders.value.findIndex((o) => o.id === id)
+		orders.value[orderExist].qty += 1
+		addPrice(orders.value[orderExist].price)
 	}
 
 	function decrementQty(id: string) {
-		const cartExist = carts.value.findIndex((cart) => cart.id === id)
+		const orderExist = orders.value.findIndex((o) => o.id === id)
 
 		// don't decrement if qty = 1
-		if (carts.value[cartExist].qty === 1) return
+		if (orders.value[orderExist].qty === 1) return
 
-		carts.value[cartExist].qty -= 1
-		subtractPrice(carts.value[cartExist].price)
+		orders.value[orderExist].qty -= 1
+		subtractPrice(orders.value[orderExist].price)
 
 		// delete the product if qty is 0
-		if (carts.value[cartExist].qty === 0) {
-			carts.value.splice(cartExist, 1)
+		if (orders.value[orderExist].qty === 0) {
+			orders.value.splice(orderExist, 1)
 		}
 	}
 
@@ -80,52 +80,50 @@ export const useCart = defineStore('carts', () => {
 		compute product price with the inputed qty from onChange event
 	*/
 	function computeProductPriceWithQty(index: number) {
-		const theCart = carts.value[index]
-		const cartTotalPrice = theCart.qty * theCart.price
-		return cartTotalPrice
+		const theOrder = orders.value[index]
+		const orderTotalPrice = theOrder.qty * theOrder.price
+		return orderTotalPrice
 	}
 
 	function inputQty(value: number, id: string) {
-		const cartExist = carts.value.findIndex((cart) => cart.id === id)
-		carts.value[cartExist].qty = value
-		const thePrice = computeProductPriceWithQty(cartExist) - carts.value[cartExist].price
+		const orderExist = orders.value.findIndex((o) => o.id === id)
+		orders.value[orderExist].qty = value
+		const thePrice = computeProductPriceWithQty(orderExist) - orders.value[orderExist].price
 		subTotal.value += thePrice
 	}
 
 	function removeProduct(id: string) {
-		const cartExist = carts.value.findIndex((cart) => cart.id === id)
+		const orderExist = orders.value.findIndex((cart) => cart.id === id)
 
-		const thePrice = computeProductPriceWithQty(cartExist)
+		const thePrice = computeProductPriceWithQty(orderExist)
 		subtractPrice(thePrice)
 
-		carts.value.splice(cartExist, 1)
+		orders.value.splice(orderExist, 1)
 	}
 
-	function addProductCustomizations(productCustomization: ProductCustomization, productId: string) {
-		const cartExist = carts.value.findIndex((cart) => cart.id === productId)
-		carts.value[cartExist].customization = productCustomization
-		const oldPrice = carts.value[cartExist].price
+	function addProductCustomizations(productOptions: ProductOptions, productId: string) {
+		const orderExist = orders.value.findIndex((o) => o.id === productId)
+		orders.value[orderExist].customization = productOptions
+		const oldPrice = orders.value[orderExist].price
 
-		if (productCustomization.fixAmount && productCustomization.discount) {
-			const newPrice = parseInt(
-				String(productCustomization.fixAmount * (productCustomization.discount * 100)),
-			)
-			carts.value[cartExist].price = newPrice
+		if (productOptions.fixAmount && productOptions.discount) {
+			const newPrice = parseInt(String(productOptions.fixAmount * (productOptions.discount * 100)))
+			orders.value[orderExist].price = newPrice
 
 			// deduct temp price and add the new price
 			subtractPrice(oldPrice)
 			addPrice(newPrice)
-		} else if (productCustomization.fixAmount) {
-			carts.value[cartExist].price = parseInt(String(productCustomization.fixAmount))
+		} else if (productOptions.fixAmount) {
+			orders.value[orderExist].price = parseInt(String(productOptions.fixAmount))
 
 			// replace with new price
 			subtractPrice(oldPrice)
-			addPrice(parseInt(String(productCustomization.fixAmount)))
+			addPrice(parseInt(String(productOptions.fixAmount)))
 		}
 
 		// add description
-		if (productCustomization.description) {
-			carts.value[cartExist].customization.description = productCustomization.description
+		if (productOptions.description) {
+			orders.value[orderExist].customization.description = productOptions.description
 		}
 	}
 
@@ -133,18 +131,18 @@ export const useCart = defineStore('carts', () => {
 	async function directCheckout(amount: number) {
 		if (amount < subTotal.value)
 			throw new Error('Invalid amount (input an amount that is greater than the sub total)')
-		transactions.value.default?.push({
-			name: 'customer#' + transactions.value.default?.length,
-			carts: carts.value,
-			amount,
-			total: subTotal.value,
+		carts.value.default?.push({
+			customerName: 'customer#' + carts.value.default?.length,
+			orders: orders.value,
+			cashAmount: amount,
+			totalPrice: subTotal.value,
 		})
 
 		return await swal({
 			icon: 'success',
 			title: 'Successful Checkout',
 		}).then(() => {
-			carts.value = []
+			orders.value = []
 			subTotal.value = 0
 		})
 	}
@@ -153,17 +151,17 @@ export const useCart = defineStore('carts', () => {
 	async function checkoutCart() {
 		if (subTotal.value === 0) return
 
-		transactions.value[`${table.value.replace(/ /g, '').toLowerCase()}`] = {
-			name: customerName.value || 'customer#' + transactions.value.length,
-			carts: carts.value,
-			total: subTotal.value,
+		carts.value[`${table.value.replace(/ /g, '').toLowerCase()}`] = {
+			customerName: customerName.value || 'customer#' + carts.value.length,
+			orders: orders.value,
+			totalPrice: subTotal.value,
 		}
 
 		return await swal({
 			icon: 'success',
 			title: 'Successful Checkout',
 		}).then(() => {
-			carts.value = []
+			orders.value = []
 			subTotal.value = 0
 			customerName.value = ''
 			table.value = ''
@@ -171,8 +169,8 @@ export const useCart = defineStore('carts', () => {
 	}
 
 	return {
+		orders,
 		carts,
-		transactions,
 		subTotal,
 		discount,
 		discountPercentage,

@@ -52,7 +52,7 @@ const proceed = async () => {
 				<v-card-text style="height: 300px" class="pa-0">
 					<v-list lines="one">
 						<v-list-item
-							v-for="item in cartStore.carts"
+							v-for="item in cartStore.orders"
 							:key="item.id"
 							:title="item.name"
 							:subtitle="item.type"

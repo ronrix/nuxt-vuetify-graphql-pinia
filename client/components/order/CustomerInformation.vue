@@ -10,6 +10,7 @@ const cartStore = useCart()
 				label="Customer Name"
 				variant="outlined"
 				class="mt-2"
+				hide-details="auto"
 				style="border-radius: 20px"
 			/>
 			<SelectTable />

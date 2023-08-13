@@ -1,4 +1,4 @@
-export interface ProductCustomization {
+export interface ProductOptions {
 	description: string
 	fixAmount?: number
 	discount?: number
@@ -12,5 +12,5 @@ export interface Order {
 	image: string
 	qty: number
 	price: number
-	customization: ProductCustomization
+	customization: ProductOptions
 }

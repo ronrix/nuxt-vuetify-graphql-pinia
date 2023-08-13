@@ -20,7 +20,7 @@ const selectCashModal = (amount: number | null) => {
 					variant="outlined"
 					color="info"
 					class="ma-0 pa-0"
-					:disabled="!cartStore.carts.length"
+					:disabled="!cartStore.orders.length"
 					@click="selectCashModal(amount)"
 				>
 					{{ amount }}
@@ -34,7 +34,7 @@ const selectCashModal = (amount: number | null) => {
 					variant="outlined"
 					color="yellow-darken-1"
 					class="ma-0 pa-0"
-					:disabled="!cartStore.carts.length"
+					:disabled="!cartStore.orders.length"
 					@click="selectCashModal(null)"
 				>
 					custom
