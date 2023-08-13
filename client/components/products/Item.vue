@@ -14,7 +14,7 @@ const prop = defineProps<{
 				v-bind="props"
 				:class="{
 					'mr-2 mb-2 h-100 d-flex rounded rounded-xl border': true,
-					'on-hover': isHovering,
+					'elevation-2': isHovering,
 				}"
 				variant="text"
 				style="cursor: pointer; background-color: #ffff"
