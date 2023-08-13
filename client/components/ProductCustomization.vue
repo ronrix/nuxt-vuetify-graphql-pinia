@@ -27,9 +27,7 @@ const saveCustomization = () => {
 		:model-value="props.show"
 		persistent
 		width="500"
-		@change=" (e: Event) => 
-		emit('update:modelValue', (e.target as any).value)
-"
+		@change="emit('update:modelValue', !props.show)"
 	>
 		<v-card>
 			<v-card-title class="d-flex align-center">
@@ -39,7 +37,7 @@ const saveCustomization = () => {
 			</v-card-title>
 			<v-divider />
 			<v-card-text>
-				<v-form>
+				<v-form @submit.prevent>
 					<v-row>
 						<v-col cols="3" class="ma-2 pa-0">
 							<ProductsImg :img="productImg" />
@@ -50,6 +48,7 @@ const saveCustomization = () => {
 								<v-text-field
 									v-model="options.fixAmount"
 									focused
+									autofocus
 									label="Fix amount"
 									variant="outlined"
 								/>
@@ -74,6 +73,7 @@ const saveCustomization = () => {
 									v-model="options[key]"
 									:items="option"
 									label="Select"
+									variant="outlined"
 									persistent-hint
 									return-object
 									single-line
@@ -95,13 +95,7 @@ const saveCustomization = () => {
 				<v-btn color="red" variant="tonal" @click="cartStore.removeProduct(props.productId)">
 					remove
 				</v-btn>
-				<v-btn
-					type="submit"
-					color="blue-darken-1"
-					variant="tonal"
-					text="Submit"
-					@click="saveCustomization"
-				>
+				<v-btn type="submit" color="blue-darken-1" variant="tonal" @click="saveCustomization">
 					save
 				</v-btn>
 			</v-card-actions>
