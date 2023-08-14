@@ -7,11 +7,11 @@ const props = defineProps<{ cashModal: boolean; selectedAmount: number | null }>
 const amount = ref<number | null>(null)
 const error = ref<string>('')
 
-const proceed = async () => {
+const proceed = () => {
 	// selected amount
 	if (props.selectedAmount) {
 		try {
-			await cartStore.directCheckout(props.selectedAmount)
+			cartStore.directCheckout(props.selectedAmount)
 			emit('update:cashModalEmit', false)
 			error.value = ''
 			amount.value = null
@@ -24,7 +24,7 @@ const proceed = async () => {
 	// custom amount value
 	if (amount.value) {
 		try {
-			await cartStore.directCheckout(parseInt(String(amount.value)))
+			cartStore.directCheckout(parseInt(String(amount.value)))
 			emit('update:cashModalEmit', false)
 			error.value = ''
 			amount.value = null

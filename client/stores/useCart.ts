@@ -1,4 +1,3 @@
-import swal from 'sweetalert'
 import { Order, ProductOptions, Transactions } from '@/types'
 
 export const useCart = defineStore('carts', () => {
@@ -120,7 +119,7 @@ export const useCart = defineStore('carts', () => {
 	}
 
 	// direct checkout
-	async function directCheckout(amount: number) {
+	function directCheckout(amount: number) {
 		if (amount < subTotal.value)
 			throw new Error('Invalid amount (input an amount that is greater than the sub total)')
 		carts.value.default?.push({
@@ -131,23 +130,35 @@ export const useCart = defineStore('carts', () => {
 			status: 'completed',
 		})
 
-		return await swal({
-			icon: 'success',
-			title: 'Successful Checkout',
-		}).then(() => {
-			orders.value = []
-			subTotal.value = 0
+		nuxtApp.$toast.success('Successful Checkout', {
+			autoClose: 1000,
+			onOpen: () => {
+				orders.value = []
+				subTotal.value = 0
+			},
 		})
 	}
 
 	// process transaction dine in
-	async function checkoutCart() {
+	function checkoutCart() {
 		if (subTotal.value === 0) return
+		if (!customerName.value.length && !table.value.length) return
 
 		/*
  			TODO: check customer name duplication before pushing data to the state
 				this makes sure that customerName is unique
 		*/
+		let flag = 0 // 0 success; 1 failed
+		for (const key in carts.value) {
+			if (carts.value[key].customerName === customerName.value) flag = 1
+		}
+		// dislay toastify message
+		if (flag) {
+			nuxtApp.$toast.error('Duplicate customer name', {
+				autoClose: 3000,
+			})
+			return
+		}
 
 		carts.value[`${table.value.replace(/ /g, '').toLowerCase()}`] = {
 			customerName: customerName.value || 'customer#' + carts.value.length,
@@ -156,13 +167,15 @@ export const useCart = defineStore('carts', () => {
 			status: 'queue',
 		}
 
-		await useNuxtApp().$toast.success('Processing Order', {
+		nuxtApp.$toast.success('Processing Order', {
 			autoClose: 1000,
+			onOpen: () => {
+				orders.value = []
+				subTotal.value = 0
+				customerName.value = ''
+				table.value = ''
+			},
 		})
-		orders.value = []
-		subTotal.value = 0
-		customerName.value = ''
-		table.value = ''
 	}
 
 	// cancel order
