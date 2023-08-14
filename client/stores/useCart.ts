@@ -135,12 +135,14 @@ export const useCart = defineStore('carts', () => {
 			onOpen: () => {
 				orders.value = []
 				subTotal.value = 0
+				customerName.value = ''
+				table.value = ''
 			},
 		})
 	}
 
 	// process transaction dine in
-	function checkoutCart() {
+	function processTransaction() {
 		if (subTotal.value === 0) return
 		if (!customerName.value.length && !table.value.length) return
 
@@ -175,6 +177,23 @@ export const useCart = defineStore('carts', () => {
 				customerName.value = ''
 				table.value = ''
 			},
+		})
+	}
+
+	// checkout dine in customer
+	function checkout(amount: number, tableCart: string) {
+		const cart = carts.value[tableCart]
+
+		if (amount < cart.totalPrice)
+			throw new Error('Invalid amount (input an amount that is greater than the sub total)')
+		carts.value[`${tableCart.replace(/ /g, '').toLowerCase()}`] = {
+			...carts.value[`${tableCart.replace(/ /g, '').toLowerCase()}`],
+			cashAmount: amount,
+			status: 'completed',
+		}
+
+		nuxtApp.$toast.success('Successful Checkout', {
+			autoclose: 1000,
 		})
 	}
 
@@ -215,7 +234,8 @@ export const useCart = defineStore('carts', () => {
 		incrementQty,
 		decrementQty,
 		removeProduct,
-		checkoutCart,
+		processTransaction,
+		checkout,
 		directCheckout,
 		inputQty,
 		addProductCustomizations,

@@ -78,6 +78,7 @@ watch([cartStore], () => {
 			v-model:selectedAmountEmit="selectedAmount"
 			:cash-modal="cashModal"
 			:selected-amount="selectedAmount"
+			:orders-data="cartStore.orders"
 		/>
 	</v-navigation-drawer>
 </template>

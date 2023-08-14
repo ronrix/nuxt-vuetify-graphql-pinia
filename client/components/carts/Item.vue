@@ -3,6 +3,7 @@ import { Transact } from '@/types/'
 
 const cartStore = useCart()
 const props = defineProps<{ item: Transact }>()
+const cashModal = ref<boolean>(false)
 </script>
 <template>
 	<v-list-item>
@@ -22,11 +23,24 @@ const props = defineProps<{ item: Transact }>()
 					{{ props.item.status }}
 				</v-chip>
 				<h4 class="text-uppercase">{{ props.item.table }}</h4>
-				<h5>Customer name: {{ props.item.customerName }}</h5>
+				<h5>
+					<span class="font-weight-thin">Customer name:</span>
+					<span class="text-uppercase ml-2">{{ props.item.customerName }}</span>
+				</h5>
 				<p class="d-flex align-end">
-					Total:
+					<span class="font-weight-thin">Total:</span>
 					<UiDollarBill class="ma-0 pa-0 ml-2" style="font-size: 12px !important" />
-					{{ props.item.totalPrice }}
+					<span class="">{{ props.item.totalPrice }}</span>
+				</p>
+				<p v-if="props.item.status === 'completed'" class="d-flex align-end">
+					<span>Payment Amount:</span>
+					<UiDollarBill class="ma-0 pa-0 ml-2" style="font-size: 12px !important" />
+					{{ props.item.cashAmount }}
+				</p>
+				<p v-if="props.item.status === 'completed'" class="d-flex align-end">
+					Change Amount:
+					<UiDollarBill class="ma-0 pa-0 ml-2" style="font-size: 12px !important" />
+					{{ props.item.cashAmount && props.item.cashAmount - props.item.totalPrice }}
 				</p>
 			</div>
 			<div v-if="props.item.status === 'queue'" class="v-col-2">
@@ -38,13 +52,7 @@ const props = defineProps<{ item: Transact }>()
 				>
 					Cancel
 				</v-btn>
-				<v-btn
-					variant="tonal"
-					block
-					color="green"
-					class="mt-2"
-					@click="cartStore.completeOrder(props.item.customerName)"
-				>
+				<v-btn variant="tonal" block color="green" class="mt-2" @click="cashModal = true">
 					Complete
 				</v-btn>
 			</div>
@@ -58,5 +66,12 @@ const props = defineProps<{ item: Transact }>()
 			</v-expansion-panel>
 		</v-expansion-panels>
 		<v-divider class="mt-2" />
+
+		<CheckoutModal
+			v-model:cash-modal-emit="cashModal"
+			:cash-modal="cashModal"
+			:is-in-order-list="true"
+			:orders-data="props.item"
+		/>
 	</v-list-item>
 </template>

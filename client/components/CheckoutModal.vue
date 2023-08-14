@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import numeral from 'numeral'
+import { Transact } from '../types'
 
 const cartStore = useCart()
-const emit = defineEmits(['update:cashModalEmit', 'update:selectedAmountEmit'])
-const props = defineProps<{ cashModal: boolean; selectedAmount: number | null }>()
+const emit = defineEmits(['update:cashModalEmit'])
+const props = defineProps<{
+	cashModal: boolean
+	selectedAmount?: number | null
+	isInOrderList?: boolean
+	ordersData: Transact
+}>()
 const amount = ref<number | null>(null)
 const error = ref<string>('')
 
 const proceed = () => {
+	console.log('here.')
 	// selected amount
 	if (props.selectedAmount) {
 		try {
@@ -36,7 +43,7 @@ const proceed = () => {
 }
 
 const proceedWithoutPayment = () => {
-	cartStore.checkoutCart()
+	cartStore.processTransaction()
 	emit('update:cashModalEmit', false)
 }
 </script>
@@ -63,10 +70,10 @@ const proceedWithoutPayment = () => {
 					<v-card-text style="max-height: 300px" class="pa-0">
 						<v-list lines="one">
 							<v-list-item
-								v-for="item in cartStore.orders"
-								:key="item.id"
-								:title="item.name"
-								:subtitle="item.type"
+								v-for="item in props.ordersData.orders"
+								:key="item?.id"
+								:title="item?.name"
+								:subtitle="item?.type"
 								class="text-h6"
 							/>
 						</v-list>
@@ -76,7 +83,13 @@ const proceedWithoutPayment = () => {
 						<p v-if="error.length" class="px-2 text-red-darken-4 bg-red-lighten-4">{{ error }}</p>
 						<h4 class="d-flex align-center justify-space-between">
 							<span>Total:</span>
-							<span>{{ numeral(cartStore.subTotal).format('0.0a') }}</span>
+							<span>
+								{{
+									props.ordersData.totalPrice
+										? numeral(props.ordersData.totalPrice).format('0.0a')
+										: numeral(cartStore.subTotal).format('0.0a')
+								}}
+							</span>
 						</h4>
 						<h4
 							:class="{
@@ -105,18 +118,28 @@ const proceedWithoutPayment = () => {
 							type="submit"
 							:disabled="
 								(props.selectedAmount && props.selectedAmount < cartStore.subTotal) ||
-								(amount ? amount < cartStore.subTotal : true)
+								(amount
+									? amount < cartStore.subTotal || amount < props.ordersData.totalPrice
+									: true)
 							"
 							color="info"
 							variant="outlined"
 							block
 							class="text-capitalize ma-0 pa-0"
-							@click="proceed"
+							@click="
+								props.isInOrderList
+									? cartStore.checkout(
+											parseInt(String(amount)),
+											String(props.ordersData.table),
+									  )
+									: proceed()
+							"
 						>
 							Checkout
 						</v-btn>
+						<!-- adding isCheckout prop to undisplay this button when completing the checkout in 'order lists' page -->
 						<v-btn
-							:disabled="amount && !!amount"
+							v-if="!props.isInOrderList"
 							color="info"
 							variant="outlined"
 							block
