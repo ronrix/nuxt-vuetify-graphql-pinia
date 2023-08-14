@@ -1,21 +1,5 @@
 import swal from 'sweetalert'
-import { Order, ProductOptions } from '@/types'
-
-type Transact = {
-	customerName: string
-	orders: Order[]
-	totalPrice: number
-	cashAmount?: number
-	status?: string
-}
-
-type DefaultTransaction = {
-	default?: Transact[]
-}
-
-type Transactions = {
-	[index: string]: Transact
-} & DefaultTransaction
+import { Order, ProductOptions, Transactions } from '@/types'
 
 export const useCart = defineStore('carts', () => {
 	const orders = ref<Order[]>([])

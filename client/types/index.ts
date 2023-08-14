@@ -14,3 +14,20 @@ export interface Order {
 	price: number
 	customization: ProductOptions
 }
+
+export type Transact = {
+	customerName: string
+	orders: Order[]
+	totalPrice: number
+	cashAmount?: number
+	status?: string
+	table?: string
+}
+
+export type DefaultTransaction = {
+	default?: Transact[]
+}
+
+export type Transactions = {
+	[index: string]: Transact
+} & DefaultTransaction
