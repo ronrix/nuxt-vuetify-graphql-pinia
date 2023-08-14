@@ -34,6 +34,11 @@ const proceed = () => {
 		}
 	}
 }
+
+const proceedWithoutPayment = () => {
+	cartStore.checkoutCart()
+	emit('update:cashModalEmit', false)
+}
 </script>
 <template>
 	<v-row justify="center">
@@ -55,7 +60,7 @@ const proceed = () => {
 						<v-icon icon="mdi-close" class="ml-5" @click="emit('update:cashModalEmit', false)" />
 					</v-card-title>
 					<v-divider />
-					<v-card-text style="height: 300px" class="pa-0">
+					<v-card-text style="max-height: 300px" class="pa-0">
 						<v-list lines="one">
 							<v-list-item
 								v-for="item in cartStore.orders"
@@ -89,12 +94,13 @@ const proceed = () => {
 								variant="outlined"
 								focused
 								autofocus
+								hide-details
 								:rules="[(v: any) => !!v || 'Please input amount before proceeding', (v: any) => v >= cartStore.subTotal || 'Please input amount greater than the sub total']"
 							/>
 						</h4>
 					</v-card-text>
 					<v-divider />
-					<v-card-actions>
+					<v-card-actions class="d-flex flex-column">
 						<v-btn
 							type="submit"
 							:disabled="
@@ -104,9 +110,20 @@ const proceed = () => {
 							color="info"
 							variant="outlined"
 							block
+							class="text-capitalize ma-0 pa-0"
 							@click="proceed"
 						>
-							Proceed
+							Checkout
+						</v-btn>
+						<v-btn
+							:disabled="amount && !!amount"
+							color="info"
+							variant="outlined"
+							block
+							class="text-capitalize ma-0 pa-0 mt-2"
+							@click="proceedWithoutPayment"
+						>
+							Proceed without payment
 						</v-btn>
 					</v-card-actions>
 				</v-card>

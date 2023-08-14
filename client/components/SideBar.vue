@@ -3,6 +3,14 @@ const drawer = inject('drawer')
 const contentToScroll = ref<HTMLDivElement | null>(null)
 const cartStore = useCart()
 
+const selectedAmount = ref<number | null>(null)
+const cashModal = ref<boolean>(false)
+
+const selectCashModal = (amount: number | null) => {
+	cashModal.value = true
+	selectedAmount.value = amount
+}
+
 // this keeps the auto-scroll to bottom on reload
 onMounted(() => {
 	if (contentToScroll.value) {
@@ -53,17 +61,23 @@ watch([cartStore], () => {
 			<v-divider style="background: var(--line)" />
 			<OrderSummary />
 
-			<CashBtns />
+			<CashBtns :select-cash-modal="selectCashModal" />
 			<v-btn
 				block
 				size="sm"
 				:disabled="!cartStore.canProcess"
 				class="my-3 text-capitalize font-weight-bold pa-3 rounded rounded-lg"
 				style="background: #084eff; color: var(--light-grey)"
-				@click="cartStore.checkoutCart"
+				@click="selectCashModal(null)"
 			>
 				Dine In
 			</v-btn>
 		</template>
+		<CheckoutModal
+			v-model:cashModalEmit="cashModal"
+			v-model:selectedAmountEmit="selectedAmount"
+			:cash-modal="cashModal"
+			:selected-amount="selectedAmount"
+		/>
 	</v-navigation-drawer>
 </template>
