@@ -24,7 +24,7 @@ const prop = defineProps<{
 					<h5
 						class="text-h4 mt-2 text-uppercase prevent-select d-flex align-start font-weight-medium"
 					>
-						<span class="text-h6 font-weight-black" style="color: var(--primary)">$</span>
+						<UiDollarBill />
 						<span>{{ numeral(prop.ship.price).format('0.0a') }}</span>
 					</h5>
 				</v-col>

@@ -62,7 +62,7 @@ watch([cartStore], () => {
 				style="background: #084eff; color: var(--light-grey)"
 				@click="cartStore.checkoutCart"
 			>
-				Process Transaction
+				Dine In
 			</v-btn>
 		</template>
 	</v-navigation-drawer>

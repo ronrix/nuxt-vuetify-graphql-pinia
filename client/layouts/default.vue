@@ -18,11 +18,11 @@ provide('drawer', drawer)
 				</NuxtLink>
 				<NuxtLink to="/carts" active-class="active-link" class="px-5 font-weight-bold">
 					<v-icon icon="mdi-cart-variant" />
-					Carts
+					Order Lists
 				</NuxtLink>
 				<NuxtLink to="/tables" active-class="active-link" class="font-weight-bold">
 					<v-icon icon="mdi-table-furniture" />
-					Tables
+					Table Management
 				</NuxtLink>
 			</nav>
 			<!-- account -->
