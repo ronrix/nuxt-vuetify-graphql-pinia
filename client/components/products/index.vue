@@ -15,7 +15,7 @@ const props = defineProps<{
 				:key="ship.id"
 				:ship="ship"
 				:is-list-view="isListView"
-				@click="addOrder(ship)"
+				@click="addOrder({ ...ship, customization: {} })"
 			/>
 			<v-spacer />
 			<v-spacer />

@@ -1,5 +1,5 @@
 export interface ProductOptions {
-	description: string
+	description?: string
 	fixAmount?: number
 	discount?: number
 	[index: string]: any

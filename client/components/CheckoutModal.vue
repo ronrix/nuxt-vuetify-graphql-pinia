@@ -42,6 +42,7 @@ const proceed = async () => {
 			scrollable
 			width="auto"
 			@change="emit('update:cashModalEmit', !props.cashModal)"
+			@keydown.esc="emit('update:cashModalEmit', !props.cashModal)"
 		>
 			<v-form @submit.prevent>
 				<v-card>

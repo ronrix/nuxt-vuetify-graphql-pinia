@@ -6,10 +6,11 @@ type Transact = {
 	orders: Order[]
 	totalPrice: number
 	cashAmount?: number
+	status?: string
 }
 
 type DefaultTransaction = {
-	default: Transact[]
+	default?: Transact[]
 }
 
 type Transactions = {
@@ -18,6 +19,12 @@ type Transactions = {
 
 export const useCart = defineStore('carts', () => {
 	const orders = ref<Order[]>([])
+	/*
+ 		DOC: setting default value to 'carts' ( { default: [] } )
+			give us a function 'push()' when pushing to 'default' property
+
+			`carts.value.default.push()`
+	*/
 	const carts = ref<Transactions>({ default: [] })
 	const subTotal = ref<number>(0)
 
@@ -136,6 +143,7 @@ export const useCart = defineStore('carts', () => {
 			orders: orders.value,
 			cashAmount: amount,
 			totalPrice: subTotal.value,
+			status: 'completed',
 		})
 
 		return await swal({
@@ -155,6 +163,7 @@ export const useCart = defineStore('carts', () => {
 			customerName: customerName.value || 'customer#' + carts.value.length,
 			orders: orders.value,
 			totalPrice: subTotal.value,
+			status: 'queue',
 		}
 
 		return await swal({
