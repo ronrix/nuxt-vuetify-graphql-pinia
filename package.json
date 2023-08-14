@@ -47,7 +47,7 @@
 	"dependencies": {
 		"@pinia/nuxt": "^0.4.7",
 		"sass": "^1.60.0",
-		"sweetalert": "^2.1.2",
+		"vue3-toastify": "^0.1.12",
 		"vuetify": "^3.1.11"
 	},
 	"version": "1.0.0"

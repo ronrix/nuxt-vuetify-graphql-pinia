@@ -33,7 +33,7 @@ const completedOrders = computed(() => {
 	const carts = cartStore.carts
 	for (const key in carts) {
 		if (key === 'default') continue
-		if (carts[key].status === 'complete') {
+		if (carts[key].status === 'completed') {
 			res.push({ ...carts[key], table: key })
 		}
 	}
@@ -66,13 +66,23 @@ const data = computed(() => {
 			<v-window-item v-for="n in 3" :key="n" :value="n">
 				<v-list lines="two">
 					<UiErrorMsg v-if="!data?.length">
-						<h5>No data found!</h5>
+						<h5>No data is found!</h5>
 					</UiErrorMsg>
 					<v-sheet v-for="(item, id) in data" v-else :key="id">
 						<v-list-item>
 							<div class="d-flex flex-row justify-space-between">
 								<div class="v-col-auto ml-5">
-									<v-chip color="info" class="text-overline text-capitalize" size="x-small">
+									<v-chip
+										:color="
+											item.status === 'cancelled'
+												? 'red'
+												: item.status === 'completed'
+												? 'green'
+												: 'info'
+										"
+										class="text-overline text-capitalize"
+										size="x-small"
+									>
 										{{ item.status }}
 									</v-chip>
 									<h4 class="text-uppercase">{{ item.table }}</h4>
@@ -86,9 +96,24 @@ const data = computed(() => {
 										{{ item.totalPrice }}
 									</p>
 								</div>
-								<div class="v-col-2">
-									<v-btn variant="tonal" block color="red">Cancel</v-btn>
-									<v-btn variant="tonal" block color="green" class="mt-2">Complete</v-btn>
+								<div v-if="item.status === 'queue'" class="v-col-2">
+									<v-btn
+										variant="tonal"
+										block
+										color="red"
+										@click="cartStore.cancelOrder(item.customerName)"
+									>
+										Cancel
+									</v-btn>
+									<v-btn
+										variant="tonal"
+										block
+										color="green"
+										class="mt-2"
+										@click="cartStore.completeOrder(item.customerName)"
+									>
+										Complete
+									</v-btn>
 								</div>
 							</div>
 							<v-expansion-panels variant="popout" class="mt-2">

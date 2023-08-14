@@ -2,6 +2,7 @@ import swal from 'sweetalert'
 import { Order, ProductOptions, Transactions } from '@/types'
 
 export const useCart = defineStore('carts', () => {
+	const nuxtApp = useNuxtApp()
 	const orders = ref<Order[]>([])
 	/*
  		DOC: setting default value to 'carts' ( { default: [] } )
@@ -143,6 +144,11 @@ export const useCart = defineStore('carts', () => {
 	async function checkoutCart() {
 		if (subTotal.value === 0) return
 
+		/*
+ 			TODO: check customer name duplication before pushing data to the state
+				this makes sure that customerName is unique
+		*/
+
 		carts.value[`${table.value.replace(/ /g, '').toLowerCase()}`] = {
 			customerName: customerName.value || 'customer#' + carts.value.length,
 			orders: orders.value,
@@ -150,15 +156,35 @@ export const useCart = defineStore('carts', () => {
 			status: 'queue',
 		}
 
-		return await swal({
-			icon: 'success',
-			title: 'Successful Checkout',
-		}).then(() => {
-			orders.value = []
-			subTotal.value = 0
-			customerName.value = ''
-			table.value = ''
+		await useNuxtApp().$toast.success('Processing Order', {
+			autoClose: 1000,
 		})
+		orders.value = []
+		subTotal.value = 0
+		customerName.value = ''
+		table.value = ''
+	}
+
+	// cancel order
+	function cancelOrder(customerName: string) {
+		for (const key in carts.value) {
+			if (key === 'default') continue
+			if (carts.value[key].customerName === customerName) {
+				carts.value[key].status = 'cancelled'
+				nuxtApp.$toast.success('Cancelling Order', { autoClose: 1000 })
+			}
+		}
+	}
+
+	// complete order
+	function completeOrder(customerName: string) {
+		for (const key in carts.value) {
+			if (key === 'default') continue
+			if (carts.value[key].customerName === customerName) {
+				carts.value[key].status = 'completed'
+				nuxtApp.$toast.success('Completing Order', { autoClose: 1000 })
+			}
+		}
 	}
 
 	return {
@@ -180,5 +206,7 @@ export const useCart = defineStore('carts', () => {
 		directCheckout,
 		inputQty,
 		addProductCustomizations,
+		cancelOrder,
+		completeOrder,
 	}
 })

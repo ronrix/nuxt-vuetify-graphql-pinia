@@ -1,18 +1,19 @@
 @import 'https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap';
+@import 'vue3-toastify/dist/index.css';
 
 :root {
 	--primary: #084eff;
 	--light-primary: #d4e5ff;
 	--line: #f1f1f1;
 	--light-grey-2: #f2f2f2;
-	--light-grey-1: #F6F6F6;
-	--light-grey: #FBFBFB;
-	--dark-grey: #C1C1C1;
+	--light-grey-1: #f6f6f6;
+	--light-grey: #fbfbfb;
+	--dark-grey: #c1c1c1;
 	--dark: #444;
 }
 
 * {
-	font-family: 'Poppins', sans-serif;
+	font-family: Poppins, sans-serif;
 }
 
 body {
@@ -55,8 +56,7 @@ body {
 	background: #66666b;
 }
 
-.prevent-select {
-	user-select: none; /* Firefox */
+.prevent-select { /* Firefox */
 	user-select: none; /* Opera */
 	user-select: none;
 	user-select: none; /* Standard syntax */

@@ -10,20 +10,18 @@ const onClick = (category: string, idx: number) => {
 }
 </script>
 <template>
-	<v-tabs
-		rounded
-		class="py-1 px-3 rounded rounded-xl"
-		style="background-color: var(--light-grey-2)"
-		slider-color="transparent"
-	>
-		<v-tab
-			v-for="(category, idx) in categories"
-			:key="idx"
-			rounded
-			:class="{ 'bg-white': category === activeCategory }"
-			@click="onClick(category, idx)"
-		>
-			{{ category }}
-		</v-tab>
-	</v-tabs>
+	<v-sheet class="mx-auto">
+		<v-slide-group show-arrows>
+			<v-slide-group-item v-for="(category, idx) in categories" :key="idx">
+				<v-btn
+					class="ma-2"
+					rounded
+					:color="category === activeCategory ? 'info' : undefined"
+					@click="onClick(category, idx)"
+				>
+					{{ category }}
+				</v-btn>
+			</v-slide-group-item>
+		</v-slide-group>
+	</v-sheet>
 </template>
